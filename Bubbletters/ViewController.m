@@ -108,7 +108,9 @@
     self.wordDict = @[@"house", @"home", @"qua", @"zoo", @"cat", @"keep", @"jail", @"gum", @"candy", @"dog", @"rat", @"happy", @"baby", @"boy", @"girl", @"man", @"woman", @"door", @"floor", @"window", @"hand", @"quit", @"quiet", @"zip", @"zap", @"bat", @"igloo", @"star", @"sing"];
     
     [self gameButtons];
-    
+    [self formatWordLabel];
+    [self formatContainers];
+    [self formatEntryButtons];
     [self.letters initialLettersForButtonArray:[self buttonArray]];
     
     
@@ -159,6 +161,34 @@
 {
     NSArray *buttons = @[self.submitButton, self. backspaceButton, self.clearAllButton];
     return buttons;
+}
+
+-(void)formatWordLabel
+{
+    self.wordLabel.backgroundColor = [UIColor colorWithRed:147/255.0 green:114/255.0 blue:205/255.0 alpha:1.0];
+    self.wordLabel.layer.borderColor = [UIColor blackColor].CGColor;
+    self.wordLabel.layer.borderWidth = 2;
+    self.wordLabel.layer.cornerRadius = 15;
+    self.wordLabel.layer.masksToBounds = YES;
+}
+
+-(void)formatContainers
+{
+    for (UIView *container in [self containerArray])
+    {
+        container.backgroundColor = [UIColor clearColor];
+    }
+}
+
+-(void)formatEntryButtons
+{
+    UIColor *border = [UIColor blackColor];
+    for (UIButton *button in [self entryButtons])
+    {
+        button.layer.borderColor = border.CGColor;
+        button.layer.borderWidth = 2;
+        button.layer.cornerRadius = 15;
+    }
 }
 
 -(void)formatGameButtons:(NSArray *)array
