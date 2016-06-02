@@ -30,8 +30,36 @@
     return mArray;
 }
 
+-(NSInteger)randomIndex
+{
+    NSInteger randomInd = arc4random_uniform((u_int32_t)[[self lettersArray] count]);
+    return randomInd;
+}
 
+-(void)initialLettersForButtonArray:(NSArray *)array
+{
+    for (UIButton *button in array)
+    {
+        [button setTitle:[[self randomizeArray] objectAtIndex:[self randomIndex]] forState:UIControlStateNormal];
+    }
+    
+}
 
+-(void)letterSwapForArray:(NSArray *)array
+{
+    for (UIButton *button in array)
+    {
+        [button setTitle:[[self randomizeArray] objectAtIndex:[self randomIndex]] forState:UIControlStateNormal];
+    }
+}
+
+-(void)buttonAction:(NSArray *)array
+{
+    for (UIButton *button in array)
+    {
+        [button addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
+    }
+}
 
 
 

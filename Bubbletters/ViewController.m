@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "LettersArrays.h"
 
 @interface ViewController ()
 
@@ -83,6 +84,8 @@
 @property NSTimer *swapTimer03;
 @property NSTimer *swapTimer04;
 
+@property LettersArrays *letters;
+
 - (IBAction)submitTapped:(id)sender;
 - (IBAction)backspaceTapped:(id)sender;
 - (IBAction)clearAllTapped:(id)sender;
@@ -96,14 +99,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    self.letters = [LettersArrays new];
     self.wordArray = [NSMutableArray new];
     
     //The array has the same Scrabble letter distribution/frequency
     self.lettersArray = @[@"A", @"A", @"A", @"A", @"A", @"A", @"A", @"A", @"A", @"B", @"B", @"C", @"C", @"D", @"D", @"D", @"D", @"E", @"E", @"E", @"E", @"E", @"E", @"E", @"E", @"E", @"E", @"E", @"E", @"F", @"F", @"G", @"G", @"G", @"H", @"H", @"I", @"I", @"I", @"I", @"I", @"I", @"I", @"I", @"I", @"J", @"K", @"L", @"L", @"L", @"L", @"M", @"M", @"N", @"N", @"N", @"N", @"N", @"N", @"O", @"O", @"O", @"O", @"O", @"O", @"O", @"O", @"P", @"P", @"Q", @"R", @"R", @"R", @"R", @"R", @"R", @"S", @"S", @"S", @"S", @"T", @"T", @"T", @"T", @"T", @"T", @"U", @"U", @"U", @"U", @"V", @"V", @"W", @"W", @"X", @"Y", @"Y", @"Z"];
     
+    self.wordDict = @[@"house", @"home", @"qua", @"zoo", @"cat", @"keep", @"jail", @"gum", @"candy", @"dog", @"rat", @"happy", @"baby", @"boy", @"girl", @"man", @"woman", @"door", @"floor", @"window", @"hand", @"quit", @"quiet", @"zip", @"zap", @"bat", @"igloo", @"star", @"sing"];
+    
     [self gameButtons];
     
-    
+    [self.letters initialLettersForButtonArray:[self buttonArray]];
     
     
 }
@@ -116,6 +122,30 @@
 -(NSArray *)buttonArray
 {
     NSArray *buttons = @[self.button01, self.button02, self.button03, self.button04, self.button05, self.button06, self.button07, self.button08, self.button09, self.button10, self.button11, self.button12, self.button13, self.button14, self.button15, self.button16];
+    return buttons;
+}
+
+-(NSArray *)buttonSwapArray01
+{
+    NSArray *buttons = @[self.button01, self.button08, self.button10, self.button15];
+    return buttons;
+}
+
+-(NSArray *)buttonSwapArray02
+{
+    NSArray *buttons = @[self.button02, self.button07, self.button12, self.button13];
+    return buttons;
+}
+
+-(NSArray *)buttonSwapArray03
+{
+    NSArray *buttons = @[self.button03, self.button06, self.button09, self.button16];
+    return buttons;
+}
+
+-(NSArray *)buttonSwapArray04
+{
+    NSArray *buttons = @[self.button04, self.button05, self.button11, self.button14];
     return buttons;
 }
 
@@ -141,7 +171,7 @@
         button.layer.borderColor = border.CGColor;
         button.layer.borderWidth = 2;
         button.backgroundColor = buttonColor;
-        button.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Bold" size:45];
+        button.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Bold" size:35];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
 }
@@ -183,116 +213,177 @@
     
     self.button01 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, diameter, diameter)];
     self.button01.layer.cornerRadius = round;
-//    [self letterSwapTimer01];
-//    [self.button01 addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
     [self.container03 addSubview:self.button01];
     
     self.button02 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+(self.button01.frame.size.width+space), 0, diameter, diameter)];
     self.button02.layer.cornerRadius = round;
-//    [self letterSwapTimer02];
-//    [self.button02 addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
     [self.container03 addSubview:self.button02];
     
     self.button03 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*2)+space*2), 0, diameter, diameter)];
     self.button03.layer.cornerRadius = round;
-//    [self letterSwapTimer03];
-//    [self.button03 addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
     [self.container03 addSubview:self.button03];
     
     self.button04 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*3)+space*3), 0, diameter, diameter)];
     self.button04.layer.cornerRadius = round;
-//    [self letterSwapTimer04];
-//    [self.button04 addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
     [self.container03 addSubview:self.button04];
     
     self.button05 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, diameter, diameter)];
     self.button05.layer.cornerRadius = round;
-//    [self letterSwapTimer04];
-//    [self.button05 addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
     [self.container04 addSubview:self.button05];
     
     self.button06 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+(self.button01.frame.size.width+space), 0, diameter, diameter)];
     self.button06.layer.cornerRadius = round;
-//    [self letterSwapTimer03];
-//    [self.button06 addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
     [self.container04 addSubview:self.button06];
     
     self.button07 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*2)+space*2), 0, diameter, diameter)];
     self.button07.layer.cornerRadius = round;
-//    [self letterSwapTimer02];
-//    [self.button07 addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
     [self.container04 addSubview:self.button07];
     
     self.button08 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*3)+space*3), 0, diameter, diameter)];
     self.button08.layer.cornerRadius = round;
-//    [self letterSwapTimer01];
-//    [self.button08 addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
     [self.container04 addSubview:self.button08];
     
     self.button09 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, diameter, diameter)];
     self.button09.layer.cornerRadius = round;
-//    [self letterSwapTimer03];
-//    [self.button09 addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
     [self.container05 addSubview:self.button09];
     
     self.button10 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+(self.button01.frame.size.width+space), 0, diameter, diameter)];
     self.button10.layer.cornerRadius = round;
-//    [self letterSwapTimer01];
-//    [self.button10 addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
     [self.container05 addSubview:self.button10];
     
     self.button11 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*2)+space*2), 0, diameter, diameter)];
     self.button11.layer.cornerRadius = round;
-//    [self letterSwapTimer04];
-//    [self.button11 addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
     [self.container05 addSubview:self.button11];
     
     self.button12 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*3)+space*3), 0, diameter, diameter)];
     self.button12.layer.cornerRadius = round;
-//    [self letterSwapTimer02];
-//    [self.button12 addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
     [self.container05 addSubview:self.button12];
     
     self.button13 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, diameter, diameter)];
     self.button13.layer.cornerRadius = round;
-//    [self letterSwapTimer02];
-//    [self.button13 addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
     [self.container06 addSubview:self.button13];
     
     self.button14 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+(self.button01.frame.size.width+space), 0, diameter, diameter)];
     self.button14.layer.cornerRadius = round;
-//    [self letterSwapTimer04];
-//    [self.button14 addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
     [self.container06 addSubview:self.button14];
     
     self.button15 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*2)+space*2), 0, diameter, diameter)];
     self.button15.layer.cornerRadius = round;
-//    [self letterSwapTimer01];
-//    [self.button15 addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
     [self.container06 addSubview:self.button15];
     
     self.button16 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*3)+space*3), 0, diameter, diameter)];
     self.button16.layer.cornerRadius = round;
-//    [self letterSwapTimer03];
-//    [self.button16 addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
     [self.container06 addSubview:self.button16];
     
     [self formatGameButtons:[self buttonArray]];
+    [self buttonAction:[self buttonArray]];
+    [self letterSwapTimer01];
+    [self letterSwapTimer02];
+    [self letterSwapTimer03];
+    [self letterSwapTimer04];
+}
+
+-(void)letterSwapTimer01
+{
+    self.swapTimer01 = [NSTimer scheduledTimerWithTimeInterval:6.0
+                                                        target:self
+                                                      selector:@selector(letterSwap01)
+                                                      userInfo:nil
+                                                       repeats:YES];
+}
+
+-(void)letterSwapTimer02
+{
+    self.swapTimer02 = [NSTimer scheduledTimerWithTimeInterval:5.5
+                                                        target:self
+                                                      selector:@selector(letterSwap02)
+                                                      userInfo:nil
+                                                       repeats:YES];
+}
+
+-(void)letterSwapTimer03
+{
+    self.swapTimer03 = [NSTimer scheduledTimerWithTimeInterval:7.0
+                                                        target:self
+                                                      selector:@selector(letterSwap03)
+                                                      userInfo:nil
+                                                       repeats:YES];
+}
+
+-(void)letterSwapTimer04
+{
+    self.swapTimer04 = [NSTimer scheduledTimerWithTimeInterval:6.5
+                                                        target:self
+                                                      selector:@selector(letterSwap04)
+                                                      userInfo:nil
+                                                       repeats:YES];
+}
+
+-(void)letterSwap01
+{
+    [self.letters letterSwapForArray:[self buttonSwapArray01]];
+}
+
+-(void)letterSwap02
+{
+    [self.letters letterSwapForArray:[self buttonSwapArray02]];
+}
+
+-(void)letterSwap03
+{
+    [self.letters letterSwapForArray:[self buttonSwapArray03]];
+}
+
+-(void)letterSwap04
+{
+    [self.letters letterSwapForArray:[self buttonSwapArray04]];
+}
+
+-(void)buttonTapped:(UIButton *)button
+{
+    [self.wordArray addObject:button.titleLabel.text];
+    NSLog(@"WORD ARRAY: %@", _wordArray);
+    [self wordLabelDisplay];
+}
+
+-(void)buttonAction:(NSArray *)array
+{
+    for (UIButton *button in array)
+    {
+        [button addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
+    }
+}
+
+-(void)wordLabelDisplay
+{
+    self.wordLabel.text = [self.wordArray componentsJoinedByString:@""];
 }
 
 - (IBAction)submitTapped:(id)sender
 {
-    
+    NSLog(@"%@", self.wordLabel.text);
+    if ([self.wordDict containsObject:[self.wordLabel.text lowercaseString]])
+    {
+        NSLog(@"%@ is in the dictionary", self.wordLabel.text);
+        [self.wordArray removeAllObjects];
+        self.wordLabel.text = @"";
+    }
+    else
+    {
+        NSLog(@"NOPE!!");
+    }
 }
 
 - (IBAction)backspaceTapped:(id)sender
 {
-    
+    [self.wordArray removeLastObject];
+    self.wordLabel.text = [self.wordArray componentsJoinedByString:@""];
 }
 
 - (IBAction)clearAllTapped:(id)sender
 {
-    
+    [self.wordArray removeAllObjects];
+    self.wordLabel.text = @"";
 }
 
 

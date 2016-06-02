@@ -7,7 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface LettersArrays : NSObject
+
+-(void)initialLettersForButtonArray:(NSArray *)array;
+-(void)letterSwapForArray:(NSArray *)array;
 
 @end
