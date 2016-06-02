@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "Lexicontext.h"
 #import "LettersArrays.h"
+#import "Scoring.h"
 
 @interface ViewController ()
 
@@ -52,6 +53,9 @@
 @property NSTimer *swapTimer04;
 
 @property LettersArrays *letters;
+@property Scoring *score;
+@property NSInteger wordSum;
+@property NSMutableArray *scoreArray;
 
 - (IBAction)submitTapped:(id)sender;
 - (IBAction)backspaceTapped:(id)sender;
@@ -68,7 +72,10 @@
     
     self.lexDict = [Lexicontext sharedDictionary];
     self.letters = [LettersArrays new];
+    self.score = [Scoring new];
     self.wordArray = [NSMutableArray new];
+    self.scoreArray = [NSMutableArray new];
+    self.scoreLabel.text = @"Score: 0";
     
     [self gameButtons];
     [self formatWordLabel];
@@ -354,9 +361,11 @@
 
 - (IBAction)submitTapped:(id)sender
 {
+    //self.wordSum = 0;
     if ([_lexDict containsDefinitionFor:[self.wordLabel.text lowercaseString]])
     {
         NSLog(@"FOUND! - %@", self.wordLabel.text);
+        self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", [self scoring]];
         [self.wordArray removeAllObjects];
         self.wordLabel.text = @"";
     }
@@ -378,7 +387,18 @@
     self.wordLabel.text = @"";
 }
 
-
+-(NSInteger)scoring
+{
+    self.wordSum = 0;
+    NSInteger sum = [self.score scoring:[self.score mainScoringDict] for:self.wordArray];
+    [self.scoreArray addObject:[NSNumber numberWithInteger:sum]];
+    NSLog(@"Score: %@", self.scoreArray);
+    for (NSNumber *points in self.scoreArray)
+    {
+        self.wordSum += [points integerValue];
+    }
+    return self.wordSum;
+}
 
 
 

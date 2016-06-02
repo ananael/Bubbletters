@@ -53,14 +53,6 @@
     }
 }
 
--(void)buttonAction:(NSArray *)array
-{
-    for (UIButton *button in array)
-    {
-        [button addTarget:self action:@selector(buttonTapped:) forControlEvents:(UIControlEvents)UIControlEventTouchUpInside];
-    }
-}
-
 
 
 
