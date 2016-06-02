@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import "Lexicontext.h"
 #import "LettersArrays.h"
 
 @interface ViewController ()
@@ -42,42 +43,8 @@
 @property UIButton *button15;
 @property UIButton *button16;
 
-@property NSArray *lettersArray;
-@property NSArray *lettersArray02;
-@property NSArray *lettersArray03;
-@property NSArray *lettersArray04;
-@property NSArray *lettersArray05;
-@property NSArray *lettersArray06;
-@property NSArray *lettersArray07;
-@property NSArray *lettersArray08;
-@property NSArray *lettersArray09;
-@property NSArray *lettersArray10;
-@property NSArray *lettersArray11;
-@property NSArray *lettersArray12;
-@property NSArray *lettersArray13;
-@property NSArray *lettersArray14;
-@property NSArray *lettersArray15;
-@property NSArray *lettersArray16;
-
-@property NSInteger randomIndex01;
-@property NSInteger randomIndex02;
-@property NSInteger randomIndex03;
-@property NSInteger randomIndex04;
-@property NSInteger randomIndex05;
-@property NSInteger randomIndex06;
-@property NSInteger randomIndex07;
-@property NSInteger randomIndex08;
-@property NSInteger randomIndex09;
-@property NSInteger randomIndex10;
-@property NSInteger randomIndex11;
-@property NSInteger randomIndex12;
-@property NSInteger randomIndex13;
-@property NSInteger randomIndex14;
-@property NSInteger randomIndex15;
-@property NSInteger randomIndex16;
-
 @property NSMutableArray *wordArray;
-@property NSArray *wordDict;
+@property Lexicontext *lexDict;
 
 @property NSTimer *swapTimer01;
 @property NSTimer *swapTimer02;
@@ -99,13 +66,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
+    self.lexDict = [Lexicontext sharedDictionary];
     self.letters = [LettersArrays new];
     self.wordArray = [NSMutableArray new];
-    
-    //The array has the same Scrabble letter distribution/frequency
-    self.lettersArray = @[@"A", @"A", @"A", @"A", @"A", @"A", @"A", @"A", @"A", @"B", @"B", @"C", @"C", @"D", @"D", @"D", @"D", @"E", @"E", @"E", @"E", @"E", @"E", @"E", @"E", @"E", @"E", @"E", @"E", @"F", @"F", @"G", @"G", @"G", @"H", @"H", @"I", @"I", @"I", @"I", @"I", @"I", @"I", @"I", @"I", @"J", @"K", @"L", @"L", @"L", @"L", @"M", @"M", @"N", @"N", @"N", @"N", @"N", @"N", @"O", @"O", @"O", @"O", @"O", @"O", @"O", @"O", @"P", @"P", @"Q", @"R", @"R", @"R", @"R", @"R", @"R", @"S", @"S", @"S", @"S", @"T", @"T", @"T", @"T", @"T", @"T", @"U", @"U", @"U", @"U", @"V", @"V", @"W", @"W", @"X", @"Y", @"Y", @"Z"];
-    
-    self.wordDict = @[@"house", @"home", @"qua", @"zoo", @"cat", @"keep", @"jail", @"gum", @"candy", @"dog", @"rat", @"happy", @"baby", @"boy", @"girl", @"man", @"woman", @"door", @"floor", @"window", @"hand", @"quit", @"quiet", @"zip", @"zap", @"bat", @"igloo", @"star", @"sing"];
     
     [self gameButtons];
     [self formatWordLabel];
@@ -391,10 +354,9 @@
 
 - (IBAction)submitTapped:(id)sender
 {
-    NSLog(@"%@", self.wordLabel.text);
-    if ([self.wordDict containsObject:[self.wordLabel.text lowercaseString]])
+    if ([_lexDict containsDefinitionFor:[self.wordLabel.text lowercaseString]])
     {
-        NSLog(@"%@ is in the dictionary", self.wordLabel.text);
+        NSLog(@"FOUND! - %@", self.wordLabel.text);
         [self.wordArray removeAllObjects];
         self.wordLabel.text = @"";
     }
