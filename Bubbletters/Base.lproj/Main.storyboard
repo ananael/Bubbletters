@@ -75,7 +75,53 @@
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GLe-2J-5VZ" userLabel="container07">
                                 <rect key="frame" x="20" y="540" width="560" height="40"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EH6-bx-o4S">
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="40"/>
+                                        <color key="backgroundColor" red="0.23137254900000001" green="0.39607843139999999" blue="0.55294117649999996" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
+                                        <state key="normal" title="Submit">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sPq-CJ-wxi" userLabel="backspace">
+                                        <rect key="frame" x="380" y="0.0" width="80" height="40"/>
+                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
+                                        <state key="normal" title="B">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hvq-ql-2jS" userLabel="clear">
+                                        <rect key="frame" x="480" y="0.0" width="80" height="40"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
+                                        <state key="normal" title="C">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
                                 <color key="backgroundColor" red="1" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="hvq-ql-2jS" secondAttribute="bottom" id="EGS-c7-VPE"/>
+                                    <constraint firstAttribute="bottom" secondItem="sPq-CJ-wxi" secondAttribute="bottom" id="WON-kI-jtq"/>
+                                    <constraint firstItem="hvq-ql-2jS" firstAttribute="top" secondItem="GLe-2J-5VZ" secondAttribute="top" id="czB-GK-GLW"/>
+                                    <constraint firstItem="sPq-CJ-wxi" firstAttribute="top" secondItem="GLe-2J-5VZ" secondAttribute="top" id="d2o-fq-3xX"/>
+                                    <constraint firstItem="sPq-CJ-wxi" firstAttribute="leading" secondItem="EH6-bx-o4S" secondAttribute="trailing" constant="80" id="ee9-dc-e1c"/>
+                                    <constraint firstItem="EH6-bx-o4S" firstAttribute="width" secondItem="GLe-2J-5VZ" secondAttribute="width" multiplier="0.535714" id="gdd-Tr-cUk"/>
+                                    <constraint firstItem="EH6-bx-o4S" firstAttribute="leading" secondItem="GLe-2J-5VZ" secondAttribute="leading" id="naS-WV-t0V"/>
+                                    <constraint firstItem="hvq-ql-2jS" firstAttribute="leading" secondItem="sPq-CJ-wxi" secondAttribute="trailing" constant="20" id="nsy-7W-3bp"/>
+                                    <constraint firstAttribute="bottom" secondItem="EH6-bx-o4S" secondAttribute="bottom" id="tK8-z0-HTD"/>
+                                    <constraint firstAttribute="trailing" secondItem="hvq-ql-2jS" secondAttribute="trailing" id="vRq-w5-cqM"/>
+                                    <constraint firstItem="EH6-bx-o4S" firstAttribute="top" secondItem="GLe-2J-5VZ" secondAttribute="top" id="wIx-4c-Ok8"/>
+                                    <constraint firstItem="sPq-CJ-wxi" firstAttribute="width" secondItem="GLe-2J-5VZ" secondAttribute="width" multiplier="0.142857" id="xkW-CZ-f0m"/>
+                                    <constraint firstItem="hvq-ql-2jS" firstAttribute="width" secondItem="GLe-2J-5VZ" secondAttribute="width" multiplier="0.142857" id="zHV-xa-5Zy"/>
+                                </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="ee9-dc-e1c"/>
+                                    </mask>
+                                </variation>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -123,6 +169,18 @@
                             <constraint firstItem="vB1-Gl-mNf" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.116667" id="zMd-qq-cRn"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="container01" destination="8Xe-dD-4gS" id="EjK-fR-2d8"/>
+                        <outlet property="container02" destination="LlE-M3-bRu" id="rSU-ln-a2K"/>
+                        <outlet property="container03" destination="JtL-HO-p10" id="rMh-SM-2MT"/>
+                        <outlet property="container04" destination="1iN-qF-vd3" id="qTU-Ba-978"/>
+                        <outlet property="container05" destination="vB1-Gl-mNf" id="So7-Eh-niv"/>
+                        <outlet property="container06" destination="WiR-n7-5jL" id="3Fc-fd-jOh"/>
+                        <outlet property="container07" destination="GLe-2J-5VZ" id="x5h-oO-Zga"/>
+                        <outlet property="countLabel" destination="eeS-VY-fM4" id="8Kr-Ef-o01"/>
+                        <outlet property="scoreLabel" destination="qI3-f8-VtH" id="awv-Nr-XAV"/>
+                        <outlet property="wordLabel" destination="XVU-Yd-1Xz" id="w5f-Da-baC"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
