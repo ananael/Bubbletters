@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D2228D311D00721E00E6477D /* LettersArrays.m in Sources */ = {isa = PBXBuildFile; fileRef = D2228D301D00721E00E6477D /* LettersArrays.m */; };
 		D2F5C19F1CFFC02B0083E276 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F5C19E1CFFC02B0083E276 /* main.m */; };
 		D2F5C1A21CFFC02B0083E276 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F5C1A11CFFC02B0083E276 /* AppDelegate.m */; };
 		D2F5C1A51CFFC02B0083E276 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F5C1A41CFFC02B0083E276 /* ViewController.m */; };
@@ -35,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D2228D2F1D00721E00E6477D /* LettersArrays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LettersArrays.h; sourceTree = "<group>"; };
+		D2228D301D00721E00E6477D /* LettersArrays.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LettersArrays.m; sourceTree = "<group>"; };
 		D2F5C19A1CFFC02B0083E276 /* Bubbletters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bubbletters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F5C19E1CFFC02B0083E276 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D2F5C1A01CFFC02B0083E276 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -103,6 +106,8 @@
 			children = (
 				D2F5C1A01CFFC02B0083E276 /* AppDelegate.h */,
 				D2F5C1A11CFFC02B0083E276 /* AppDelegate.m */,
+				D2228D2F1D00721E00E6477D /* LettersArrays.h */,
+				D2228D301D00721E00E6477D /* LettersArrays.m */,
 				D2F5C1A31CFFC02B0083E276 /* ViewController.h */,
 				D2F5C1A41CFFC02B0083E276 /* ViewController.m */,
 				D2F5C1A61CFFC02B0083E276 /* Main.storyboard */,
@@ -290,6 +295,7 @@
 				D2F5C1A51CFFC02B0083E276 /* ViewController.m in Sources */,
 				D2F5C1A21CFFC02B0083E276 /* AppDelegate.m in Sources */,
 				D2F5C19F1CFFC02B0083E276 /* main.m in Sources */,
+				D2228D311D00721E00E6477D /* LettersArrays.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,6 +521,7 @@
 				D2F5C1C91CFFC02B0083E276 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D2F5C1CA1CFFC02B0083E276 /* Build configuration list for PBXNativeTarget "BubblettersTests" */ = {
 			isa = XCConfigurationList;
@@ -523,6 +530,7 @@
 				D2F5C1CC1CFFC02B0083E276 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D2F5C1CD1CFFC02B0083E276 /* Build configuration list for PBXNativeTarget "BubblettersUITests" */ = {
 			isa = XCConfigurationList;
@@ -531,6 +539,7 @@
 				D2F5C1CF1CFFC02B0083E276 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -83,6 +83,9 @@
                                         <state key="normal" title="Submit">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="submitTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="hyd-bJ-Arm"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sPq-CJ-wxi" userLabel="backspace">
                                         <rect key="frame" x="380" y="0.0" width="80" height="40"/>
@@ -91,6 +94,9 @@
                                         <state key="normal" title="B">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="backspaceTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lJm-aD-vRl"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hvq-ql-2jS" userLabel="clear">
                                         <rect key="frame" x="480" y="0.0" width="80" height="40"/>
@@ -99,6 +105,9 @@
                                         <state key="normal" title="C">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="clearAllTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ER3-rK-2EF"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -170,6 +179,8 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="backspaceButton" destination="sPq-CJ-wxi" id="phw-Wo-KtC"/>
+                        <outlet property="clearAllButton" destination="hvq-ql-2jS" id="UD4-Wr-LD1"/>
                         <outlet property="container01" destination="8Xe-dD-4gS" id="EjK-fR-2d8"/>
                         <outlet property="container02" destination="LlE-M3-bRu" id="rSU-ln-a2K"/>
                         <outlet property="container03" destination="JtL-HO-p10" id="rMh-SM-2MT"/>
@@ -179,6 +190,7 @@
                         <outlet property="container07" destination="GLe-2J-5VZ" id="x5h-oO-Zga"/>
                         <outlet property="countLabel" destination="eeS-VY-fM4" id="8Kr-Ef-o01"/>
                         <outlet property="scoreLabel" destination="qI3-f8-VtH" id="awv-Nr-XAV"/>
+                        <outlet property="submitButton" destination="EH6-bx-o4S" id="69s-LV-WXS"/>
                         <outlet property="wordLabel" destination="XVU-Yd-1Xz" id="w5f-Da-baC"/>
                     </connections>
                 </viewController>
