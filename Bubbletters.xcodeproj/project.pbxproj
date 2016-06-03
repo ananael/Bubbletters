@@ -10,6 +10,7 @@
 		D22240B81D00BB0B00FC3A8C /* LexicontextAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D22240B61D00BB0B00FC3A8C /* LexicontextAssets.bundle */; };
 		D22240B91D00BB0B00FC3A8C /* libLexicontext.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D22240B71D00BB0B00FC3A8C /* libLexicontext.a */; };
 		D22240BD1D00C1DD00FC3A8C /* Scoring.m in Sources */ = {isa = PBXBuildFile; fileRef = D22240BC1D00C1DD00FC3A8C /* Scoring.m */; };
+		D22240BF1D01040100FC3A8C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D22240BE1D01040100FC3A8C /* AudioToolbox.framework */; };
 		D2228D311D00721E00E6477D /* LettersArrays.m in Sources */ = {isa = PBXBuildFile; fileRef = D2228D301D00721E00E6477D /* LettersArrays.m */; };
 		D2F5C19F1CFFC02B0083E276 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F5C19E1CFFC02B0083E276 /* main.m */; };
 		D2F5C1A21CFFC02B0083E276 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F5C1A11CFFC02B0083E276 /* AppDelegate.m */; };
@@ -44,6 +45,7 @@
 		D22240B71D00BB0B00FC3A8C /* libLexicontext.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libLexicontext.a; sourceTree = "<group>"; };
 		D22240BB1D00C1DD00FC3A8C /* Scoring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scoring.h; sourceTree = "<group>"; };
 		D22240BC1D00C1DD00FC3A8C /* Scoring.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Scoring.m; sourceTree = "<group>"; };
+		D22240BE1D01040100FC3A8C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D2228D2F1D00721E00E6477D /* LettersArrays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LettersArrays.h; sourceTree = "<group>"; };
 		D2228D301D00721E00E6477D /* LettersArrays.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LettersArrays.m; sourceTree = "<group>"; };
 		D2F5C19A1CFFC02B0083E276 /* Bubbletters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bubbletters.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D22240BF1D01040100FC3A8C /* AudioToolbox.framework in Frameworks */,
 				D22240B91D00BB0B00FC3A8C /* libLexicontext.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -103,6 +106,7 @@
 		D2F5C1911CFFC02B0083E276 = {
 			isa = PBXGroup;
 			children = (
+				D22240BE1D01040100FC3A8C /* AudioToolbox.framework */,
 				D2F5C19C1CFFC02B0083E276 /* Bubbletters */,
 				D2F5C1B61CFFC02B0083E276 /* BubblettersTests */,
 				D2F5C1C11CFFC02B0083E276 /* BubblettersUITests */,

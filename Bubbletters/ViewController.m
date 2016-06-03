@@ -7,6 +7,7 @@
 //
 
 #import "ViewController.h"
+#import <AudioToolbox/AudioToolbox.h>
 #import "Lexicontext.h"
 #import "LettersArrays.h"
 #import "Scoring.h"
@@ -362,10 +363,9 @@
 
 - (IBAction)submitTapped:(id)sender
 {
-    //self.wordSum = 0;
     if ([_lexDict containsDefinitionFor:[self.wordLabel.text lowercaseString]])
     {
-        NSLog(@"FOUND! - %@", self.wordLabel.text);
+        //NSLog(@"FOUND! - %@", self.wordLabel.text);
         self.wordCount ++;
         self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", [self scoring]];
         self.countLabel.text = [NSString stringWithFormat:@"Words: %ld", self.wordCount];
@@ -374,7 +374,10 @@
     }
     else
     {
-        NSLog(@"NOPE!!");
+        //NSLog(@"NOPE!!");
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+        [self.wordArray removeAllObjects];
+        self.wordLabel.text = @"";
     }
 }
 
