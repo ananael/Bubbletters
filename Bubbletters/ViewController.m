@@ -55,6 +55,7 @@
 @property LettersArrays *letters;
 @property Scoring *score;
 @property NSInteger wordSum;
+@property NSInteger wordCount;
 @property NSMutableArray *scoreArray;
 
 - (IBAction)submitTapped:(id)sender;
@@ -365,7 +366,9 @@
     if ([_lexDict containsDefinitionFor:[self.wordLabel.text lowercaseString]])
     {
         NSLog(@"FOUND! - %@", self.wordLabel.text);
+        self.wordCount ++;
         self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", [self scoring]];
+        self.countLabel.text = [NSString stringWithFormat:@"Words: %ld", self.wordCount];
         [self.wordArray removeAllObjects];
         self.wordLabel.text = @"";
     }
