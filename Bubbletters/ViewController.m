@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *countLabel;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
 @property (weak, nonatomic) IBOutlet UIView *container02;
+@property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
 @property (weak, nonatomic) IBOutlet UIView *container03;
 @property (weak, nonatomic) IBOutlet UIView *container04;
 @property (weak, nonatomic) IBOutlet UIView *container05;
@@ -52,6 +53,9 @@
 @property NSTimer *swapTimer02;
 @property NSTimer *swapTimer03;
 @property NSTimer *swapTimer04;
+@property NSTimer *progressBarTimer;
+
+@property NSInteger gameSeconds;
 
 @property LettersArrays *letters;
 @property Scoring *score;
@@ -83,7 +87,10 @@
     [self formatWordLabel];
     [self formatContainers];
     [self formatEntryButtons];
+    [self formatProgeressBar];
     [self.letters initialLettersForButtonArray:[self buttonArray]];
+    
+    [self gameTimer];
     
     
 }
@@ -135,6 +142,8 @@
     return buttons;
 }
 
+#pragma mark - Formatting
+
 -(void)formatWordLabel
 {
     self.wordLabel.backgroundColor = [UIColor colorWithRed:147/255.0 green:114/255.0 blue:205/255.0 alpha:1.0];
@@ -163,6 +172,18 @@
     }
 }
 
+-(void)formatProgeressBar
+{
+    //Resizes the ProgressView (width, height).
+    self.progressBar.transform = CGAffineTransformScale(self.progressBar.transform, 1, 4);
+    
+    //Changes the background color of the ProgressView (if "Bar" style is chosen in Storyboard, default is clear).
+    self.progressBar.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.1];
+    
+    //Changes the bar color of the ProgressView (default is blue).
+    self.progressBar.tintColor = [UIColor greenColor];
+}
+
 -(void)formatGameButtons:(NSArray *)array
 {
     UIColor *buttonColor = [UIColor colorWithRed:255/255 green:255/255 blue:0.0 alpha:1.0];
@@ -177,6 +198,8 @@
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
 }
+
+#pragma mark - Letter Buttons
 
 -(void)gameButtons
 {
@@ -285,6 +308,8 @@
     [self letterSwapTimer04];
 }
 
+#pragma mark - Timers
+
 -(void)letterSwapTimer01
 {
     self.swapTimer01 = [NSTimer scheduledTimerWithTimeInterval:6.0
@@ -319,6 +344,45 @@
                                                       selector:@selector(letterSwap04)
                                                       userInfo:nil
                                                        repeats:YES];
+}
+
+-(void)gameTimer
+{
+    self.progressBarTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                             target:self
+                                                           selector:@selector(updateProgressBar)
+                                                           userInfo:nil
+                                                            repeats:YES];
+}
+
+#pragma mark - Timer Selectors
+
+-(void)updateProgressBar
+{
+    //This increases the counter by 1.
+    self.gameSeconds ++;
+    
+    //If the counter is an integer, it must be cast as (float) for the progress (which is decimal-based.
+    self.progressBar.progress = (float)self.gameSeconds/120;
+    
+    //Provides an upper limit to the timer with instructions to stop counting when the counter reaches a specific value.
+    if (self.gameSeconds == 90)
+    {
+        self.progressBar.tintColor = [UIColor yellowColor];
+    }
+    else if (self.gameSeconds ==105)
+    {
+        self.progressBar.tintColor = [UIColor redColor];
+    }
+    else if (self.gameSeconds ==120)
+    {
+        [self.progressBarTimer invalidate];
+        [self.swapTimer01 invalidate];
+        [self.swapTimer02 invalidate];
+        [self.swapTimer03 invalidate];
+        [self.swapTimer04 invalidate];
+        NSLog(@"Timer STOPPED!");
+    }
 }
 
 -(void)letterSwap01
