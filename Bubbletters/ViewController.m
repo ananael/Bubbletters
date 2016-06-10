@@ -56,6 +56,7 @@
 @property NSTimer *progressBarTimer;
 
 @property NSInteger gameSeconds;
+@property CGFloat swapSeconds;
 
 @property LettersArrays *letters;
 @property Scoring *score;
@@ -82,6 +83,7 @@
     self.wordArray = [NSMutableArray new];
     self.scoreArray = [NSMutableArray new];
     self.scoreLabel.text = @"Score: 0";
+    self.swapSeconds = 10.0;
     
     [self gameButtons];
     [self formatWordLabel];
@@ -199,7 +201,7 @@
     }
 }
 
-#pragma mark - Letter Buttons
+#pragma mark - Buttons
 
 -(void)gameButtons
 {
@@ -308,11 +310,27 @@
     [self letterSwapTimer04];
 }
 
+-(void)disableGameButtons
+{
+    for (UIButton *button in [self buttonArray])
+    {
+        [button setEnabled:NO];
+    }
+}
+
+-(void)disableEntryButtons
+{
+    for (UIButton *button in [self entryButtons])
+    {
+        [button setEnabled:NO];
+    }
+}
+
 #pragma mark - Timers
 
 -(void)letterSwapTimer01
 {
-    self.swapTimer01 = [NSTimer scheduledTimerWithTimeInterval:6.0
+    self.swapTimer01 = [NSTimer scheduledTimerWithTimeInterval:self.swapSeconds-1
                                                         target:self
                                                       selector:@selector(letterSwap01)
                                                       userInfo:nil
@@ -321,7 +339,7 @@
 
 -(void)letterSwapTimer02
 {
-    self.swapTimer02 = [NSTimer scheduledTimerWithTimeInterval:5.5
+    self.swapTimer02 = [NSTimer scheduledTimerWithTimeInterval:self.swapSeconds-1.5
                                                         target:self
                                                       selector:@selector(letterSwap02)
                                                       userInfo:nil
@@ -330,7 +348,7 @@
 
 -(void)letterSwapTimer03
 {
-    self.swapTimer03 = [NSTimer scheduledTimerWithTimeInterval:7.0
+    self.swapTimer03 = [NSTimer scheduledTimerWithTimeInterval:self.swapSeconds
                                                         target:self
                                                       selector:@selector(letterSwap03)
                                                       userInfo:nil
@@ -339,7 +357,7 @@
 
 -(void)letterSwapTimer04
 {
-    self.swapTimer04 = [NSTimer scheduledTimerWithTimeInterval:6.5
+    self.swapTimer04 = [NSTimer scheduledTimerWithTimeInterval:self.swapSeconds-0.5
                                                         target:self
                                                       selector:@selector(letterSwap04)
                                                       userInfo:nil
@@ -377,6 +395,8 @@
     else if (self.gameSeconds ==120)
     {
         [self.progressBarTimer invalidate];
+        [self disableGameButtons];
+        [self disableEntryButtons];
         [self.swapTimer01 invalidate];
         [self.swapTimer02 invalidate];
         [self.swapTimer03 invalidate];
