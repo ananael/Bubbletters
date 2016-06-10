@@ -46,7 +46,8 @@
 @property UIButton *button15;
 @property UIButton *button16;
 
-@property NSMutableArray *wordArray;
+@property NSMutableArray *tempWordArray;
+@property NSMutableArray *validWordArray;
 @property Lexicontext *lexDict;
 
 @property NSTimer *swapTimer01;
@@ -80,7 +81,8 @@
     self.lexDict = [Lexicontext sharedDictionary];
     self.letters = [LettersArrays new];
     self.score = [Scoring new];
-    self.wordArray = [NSMutableArray new];
+    self.tempWordArray = [NSMutableArray new];
+    self.validWordArray = [NSMutableArray new];
     self.scoreArray = [NSMutableArray new];
     self.scoreLabel.text = @"Score: 0";
     self.swapSeconds = 10.0;
@@ -402,6 +404,7 @@
         [self.swapTimer03 invalidate];
         [self.swapTimer04 invalidate];
         NSLog(@"Timer STOPPED!");
+        NSLog(@"%@", self.validWordArray);
     }
 }
 
@@ -427,8 +430,8 @@
 
 -(void)buttonTapped:(UIButton *)button
 {
-    [self.wordArray addObject:button.titleLabel.text];
-    NSLog(@"WORD ARRAY: %@", _wordArray);
+    [self.tempWordArray addObject:button.titleLabel.text];
+    NSLog(@"WORD ARRAY: %@", _tempWordArray);
     [self wordLabelDisplay];
 }
 
@@ -442,7 +445,7 @@
 
 -(void)wordLabelDisplay
 {
-    self.wordLabel.text = [self.wordArray componentsJoinedByString:@""];
+    self.wordLabel.text = [self.tempWordArray componentsJoinedByString:@""];
 }
 
 - (IBAction)submitTapped:(id)sender
@@ -453,34 +456,34 @@
         self.wordCount ++;
         self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", [self scoring]];
         self.countLabel.text = [NSString stringWithFormat:@"Words: %ld", self.wordCount];
-        [self.wordArray removeAllObjects];
+        [self.validWordArray addObject:self.wordLabel.text];
+        [self.tempWordArray removeAllObjects];
         self.wordLabel.text = @"";
     }
     else
     {
-        //NSLog(@"NOPE!!");
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-        [self.wordArray removeAllObjects];
+        [self.tempWordArray removeAllObjects];
         self.wordLabel.text = @"";
     }
 }
 
 - (IBAction)backspaceTapped:(id)sender
 {
-    [self.wordArray removeLastObject];
-    self.wordLabel.text = [self.wordArray componentsJoinedByString:@""];
+    [self.tempWordArray removeLastObject];
+    self.wordLabel.text = [self.tempWordArray componentsJoinedByString:@""];
 }
 
 - (IBAction)clearAllTapped:(id)sender
 {
-    [self.wordArray removeAllObjects];
+    [self.tempWordArray removeAllObjects];
     self.wordLabel.text = @"";
 }
 
 -(NSInteger)scoring
 {
     self.wordSum = 0;
-    NSInteger sum = [self.score scoring:[self.score mainScoringDict] for:self.wordArray];
+    NSInteger sum = [self.score scoring:[self.score mainScoringDict] for:self.tempWordArray];
     [self.scoreArray addObject:[NSNumber numberWithInteger:sum]];
     NSLog(@"Score: %@", self.scoreArray);
     for (NSNumber *points in self.scoreArray)
