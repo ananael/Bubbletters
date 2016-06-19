@@ -14,6 +14,9 @@
 
 @interface ViewController ()
 
+@property (weak, nonatomic) IBOutlet UIView *backAnimation;
+@property (weak, nonatomic) IBOutlet UIView *frontAnimation;
+@property (weak, nonatomic) IBOutlet UIView *gameOverView;
 @property (weak, nonatomic) IBOutlet UILabel *wordLabel;
 @property (weak, nonatomic) IBOutlet UIView *container01;
 @property (weak, nonatomic) IBOutlet UILabel *countLabel;
@@ -25,6 +28,11 @@
 @property (weak, nonatomic) IBOutlet UIView *container05;
 @property (weak, nonatomic) IBOutlet UIView *container06;
 @property (weak, nonatomic) IBOutlet UIView *container07;
+@property (weak, nonatomic) IBOutlet UIView *container08;
+@property (weak, nonatomic) IBOutlet UIView *container09;
+@property (weak, nonatomic) IBOutlet UIView *container10;
+@property (weak, nonatomic) IBOutlet UIButton *replayButton;
+@property (weak, nonatomic) IBOutlet UIButton *continueButton;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
 @property (weak, nonatomic) IBOutlet UIButton *backspaceButton;
 @property (weak, nonatomic) IBOutlet UIButton *clearAllButton;
@@ -65,6 +73,8 @@
 @property NSInteger wordCount;
 @property NSMutableArray *scoreArray;
 
+- (IBAction)replayTapped:(id)sender;
+- (IBAction)continueTapped:(id)sender;
 - (IBAction)submitTapped:(id)sender;
 - (IBAction)backspaceTapped:(id)sender;
 - (IBAction)clearAllTapped:(id)sender;
@@ -87,6 +97,10 @@
     self.scoreLabel.text = @"Score: 0";
     self.swapSeconds = 10.0;
     
+    //The backAnimation color will be replaced with the game background animation
+    self.backAnimation.backgroundColor = [UIColor colorWithRed:173/255.0 green:216/255.0 blue:230/255.0 alpha:1.0];
+    self.frontAnimation.hidden = YES;
+    self.gameOverView.hidden = YES;
     [self gameButtons];
     [self formatWordLabel];
     [self formatContainers];
@@ -136,13 +150,13 @@
 
 -(NSArray *)containerArray
 {
-    NSArray *container = @[self.container01, self.container02, self.container03, self.container04, self.container05, self.container06, self.container07];
+    NSArray *container = @[self.container01, self.container02, self.container03, self.container04, self.container05, self.container06, self.container07, self.container08, self.container09, self.container10];
     return container;
 }
 
 -(NSArray *)entryButtons
 {
-    NSArray *buttons = @[self.submitButton, self. backspaceButton, self.clearAllButton];
+    NSArray *buttons = @[self.submitButton, self. backspaceButton, self.clearAllButton, self.replayButton, self.continueButton];
     return buttons;
 }
 
@@ -448,14 +462,24 @@
     self.wordLabel.text = [self.tempWordArray componentsJoinedByString:@""];
 }
 
+- (IBAction)replayTapped:(id)sender
+{
+    
+}
+
+- (IBAction)continueTapped:(id)sender
+{
+    
+}
+
 - (IBAction)submitTapped:(id)sender
 {
     if ([_lexDict containsDefinitionFor:[self.wordLabel.text lowercaseString]])
     {
         //NSLog(@"FOUND! - %@", self.wordLabel.text);
         self.wordCount ++;
-        self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", [self scoring]];
-        self.countLabel.text = [NSString stringWithFormat:@"Words: %ld", self.wordCount];
+        self.scoreLabel.text = [NSString stringWithFormat:@"Score: %ld", (long)[self scoring]];
+        self.countLabel.text = [NSString stringWithFormat:@"Words: %ld", (long)self.wordCount];
         [self.validWordArray addObject:self.wordLabel.text];
         [self.tempWordArray removeAllObjects];
         self.wordLabel.text = @"";
