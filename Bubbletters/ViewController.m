@@ -98,7 +98,7 @@
     self.swapSeconds = 10.0;
     
     //The backAnimation color will be replaced with the game background animation
-    self.backAnimation.backgroundColor = [UIColor colorWithRed:173/255.0 green:216/255.0 blue:230/255.0 alpha:1.0];
+    self.backAnimation.backgroundColor = [UIColor colorWithRed:200/255.0 green:220/255.0 blue:255/255.0 alpha:1.0];
     self.frontAnimation.hidden = YES;
     self.gameOverView.hidden = YES;
     [self gameButtons];
@@ -164,7 +164,7 @@
 
 -(void)formatWordLabel
 {
-    self.wordLabel.backgroundColor = [UIColor colorWithRed:147/255.0 green:114/255.0 blue:205/255.0 alpha:1.0];
+    self.wordLabel.backgroundColor = [UIColor colorWithRed:230/255.0 green:255/255.0 blue:205/255.0 alpha:1.0];
     self.wordLabel.layer.borderColor = [UIColor blackColor].CGColor;
     self.wordLabel.layer.borderWidth = 2;
     self.wordLabel.layer.cornerRadius = 15;
@@ -204,14 +204,11 @@
 
 -(void)formatGameButtons:(NSArray *)array
 {
-    UIColor *buttonColor = [UIColor colorWithRed:255/255 green:255/255 blue:0.0 alpha:1.0];
-    UIColor *border = [UIColor blackColor];
+    UIImage *background = [UIImage imageNamed:@"bubble-yellowgreen@3x"];
     
     for (UIButton *button in [self buttonArray])
     {
-        button.layer.borderColor = border.CGColor;
-        button.layer.borderWidth = 2;
-        button.backgroundColor = buttonColor;
+        [button setBackgroundImage:background forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Bold" size:35];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
