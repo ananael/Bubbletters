@@ -105,6 +105,7 @@
     [self formatWordLabel];
     [self formatContainers];
     [self formatEntryButtons];
+    [self formatGameEndButtons];
     [self formatProgeressBar];
     [self.letters initialLettersForButtonArray:[self buttonArray]];
     
@@ -156,7 +157,13 @@
 
 -(NSArray *)entryButtons
 {
-    NSArray *buttons = @[self.submitButton, self. backspaceButton, self.clearAllButton, self.replayButton, self.continueButton];
+    NSArray *buttons = @[self.submitButton, self. backspaceButton, self.clearAllButton];
+    return buttons;
+}
+
+-(NSArray *)gameEndButtons
+{
+    NSArray *buttons = @[self.replayButton, self.continueButton];
     return buttons;
 }
 
@@ -183,6 +190,17 @@
 {
     UIColor *border = [UIColor blackColor];
     for (UIButton *button in [self entryButtons])
+    {
+        button.layer.borderColor = border.CGColor;
+        button.layer.borderWidth = 2;
+        button.layer.cornerRadius = 15;
+    }
+}
+
+-(void)formatGameEndButtons
+{
+    UIColor *border = [UIColor blackColor];
+    for (UIButton *button in [self gameEndButtons])
     {
         button.layer.borderColor = border.CGColor;
         button.layer.borderWidth = 2;
@@ -339,6 +357,22 @@
     }
 }
 
+-(void)enableGameButtons
+{
+    for (UIButton *button in [self buttonArray])
+    {
+        [button setEnabled:YES];
+    }
+}
+
+-(void)enableEntryButtons
+{
+    for (UIButton *button in [self entryButtons])
+    {
+        [button setEnabled:YES];
+    }
+}
+
 #pragma mark - Timers
 
 -(void)letterSwapTimer01
@@ -414,6 +448,11 @@
         [self.swapTimer02 invalidate];
         [self.swapTimer03 invalidate];
         [self.swapTimer04 invalidate];
+        
+        self.frontAnimation.hidden = NO;
+        self.frontAnimation.backgroundColor = [UIColor darkGrayColor];
+        self.gameOverView.hidden = NO;
+        
         NSLog(@"Timer STOPPED!");
         NSLog(@"%@", self.validWordArray);
     }
@@ -461,6 +500,26 @@
 
 - (IBAction)replayTapped:(id)sender
 {
+    self.frontAnimation.hidden = YES;
+    self.wordLabel.text = @"";
+    self.scoreLabel.text = @"0";
+    self.countLabel.text = @"0";
+    self.wordCount = 0; //resets word count to zero
+    self.gameSeconds = 0; //needed to reset the progress bar rate
+    self.progressBar.progress = 0.0; //resets the bar to the beginning
+    self.progressBar.tintColor = [UIColor greenColor]; //otherwise progress bar restarts as end color
+    [self.tempWordArray removeAllObjects];
+    [self.validWordArray removeAllObjects];
+    [self.scoreArray removeAllObjects];
+    [self enableGameButtons];
+    [self enableEntryButtons];
+    self.gameOverView.hidden = YES;
+    [self gameTimer];
+    [self.letters initialLettersForButtonArray:[self buttonArray]]; //otherwise starts with same ending letters
+    [self letterSwapTimer01]; //validates the timer for new game
+    [self letterSwapTimer02]; //validates the timer for new game
+    [self letterSwapTimer03]; //validates the timer for new game
+    [self letterSwapTimer04]; //validates the timer for new game
     
 }
 
