@@ -498,7 +498,7 @@
     self.wordLabel.text = [self.tempWordArray componentsJoinedByString:@""];
 }
 
-- (IBAction)replayTapped:(id)sender
+-(void)replayReset
 {
     self.frontAnimation.hidden = YES;
     self.wordLabel.text = @"";
@@ -520,12 +520,16 @@
     [self letterSwapTimer02]; //validates the timer for new game
     [self letterSwapTimer03]; //validates the timer for new game
     [self letterSwapTimer04]; //validates the timer for new game
-    
+}
+
+- (IBAction)replayTapped:(id)sender
+{
+    [self replayReset];
 }
 
 - (IBAction)continueTapped:(id)sender
 {
-    
+    NSLog(@"WORKING!");
 }
 
 - (IBAction)submitTapped:(id)sender
