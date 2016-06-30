@@ -15,6 +15,8 @@
 @interface ViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *backAnimation;
+@property (weak, nonatomic) IBOutlet UIImageView *backView;
+
 @property (weak, nonatomic) IBOutlet UIView *frontAnimation;
 @property (weak, nonatomic) IBOutlet UIView *gameOverView;
 @property (weak, nonatomic) IBOutlet UILabel *wordLabel;
@@ -98,7 +100,8 @@
     self.swapSeconds = 10.0;
     
     //The backAnimation color will be replaced with the game background animation
-    self.backAnimation.backgroundColor = [UIColor colorWithRed:200/255.0 green:220/255.0 blue:255/255.0 alpha:1.0];
+    //self.backAnimation.backgroundColor = [UIColor colorWithRed:200/255.0 green:220/255.0 blue:255/255.0 alpha:1.0];
+    self.backView.image = [UIImage imageNamed:@"test background"];
     self.frontAnimation.hidden = YES;
     self.gameOverView.hidden = YES;
     [self gameButtons];
@@ -431,15 +434,15 @@
     self.progressBar.progress = (float)self.gameSeconds/120;
     
     //Provides an upper limit to the timer with instructions to stop counting when the counter reaches a specific value.
-    if (self.gameSeconds == 90)
+    if (self.gameSeconds == 10)
     {
         self.progressBar.tintColor = [UIColor yellowColor];
     }
-    else if (self.gameSeconds ==105)
+    else if (self.gameSeconds ==15)
     {
         self.progressBar.tintColor = [UIColor redColor];
     }
-    else if (self.gameSeconds ==120)
+    else if (self.gameSeconds ==16)
     {
         [self.progressBarTimer invalidate];
         [self disableGameButtons];
@@ -529,7 +532,7 @@
 
 - (IBAction)continueTapped:(id)sender
 {
-    NSLog(@"WORKING!");
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)submitTapped:(id)sender

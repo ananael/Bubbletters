@@ -12,7 +12,9 @@
 		D22240BD1D00C1DD00FC3A8C /* Scoring.m in Sources */ = {isa = PBXBuildFile; fileRef = D22240BC1D00C1DD00FC3A8C /* Scoring.m */; };
 		D22240BF1D01040100FC3A8C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D22240BE1D01040100FC3A8C /* AudioToolbox.framework */; };
 		D2228D311D00721E00E6477D /* LettersArrays.m in Sources */ = {isa = PBXBuildFile; fileRef = D2228D301D00721E00E6477D /* LettersArrays.m */; };
+		D25F8F301D24B5C800F68C71 /* StartingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25F8F2F1D24B5C800F68C71 /* StartingViewController.m */; };
 		D2DB50A91D1C5FDE00C4F937 /* bubble-yellowgreen@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D2DB50A81D1C5FDE00C4F937 /* bubble-yellowgreen@3x.png */; };
+		D2DB50AB1D1DC47A00C4F937 /* test background.png in Resources */ = {isa = PBXBuildFile; fileRef = D2DB50AA1D1DC47A00C4F937 /* test background.png */; };
 		D2F5C19F1CFFC02B0083E276 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F5C19E1CFFC02B0083E276 /* main.m */; };
 		D2F5C1A21CFFC02B0083E276 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F5C1A11CFFC02B0083E276 /* AppDelegate.m */; };
 		D2F5C1A51CFFC02B0083E276 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D2F5C1A41CFFC02B0083E276 /* ViewController.m */; };
@@ -49,7 +51,10 @@
 		D22240BE1D01040100FC3A8C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D2228D2F1D00721E00E6477D /* LettersArrays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LettersArrays.h; sourceTree = "<group>"; };
 		D2228D301D00721E00E6477D /* LettersArrays.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LettersArrays.m; sourceTree = "<group>"; };
+		D25F8F2E1D24B5C800F68C71 /* StartingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartingViewController.h; sourceTree = "<group>"; };
+		D25F8F2F1D24B5C800F68C71 /* StartingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartingViewController.m; sourceTree = "<group>"; };
 		D2DB50A81D1C5FDE00C4F937 /* bubble-yellowgreen@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bubble-yellowgreen@3x.png"; sourceTree = "<group>"; };
+		D2DB50AA1D1DC47A00C4F937 /* test background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "test background.png"; sourceTree = "<group>"; };
 		D2F5C19A1CFFC02B0083E276 /* Bubbletters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bubbletters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F5C19E1CFFC02B0083E276 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D2F5C1A01CFFC02B0083E276 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -136,10 +141,13 @@
 				D22240BC1D00C1DD00FC3A8C /* Scoring.m */,
 				D2228D2F1D00721E00E6477D /* LettersArrays.h */,
 				D2228D301D00721E00E6477D /* LettersArrays.m */,
+				D25F8F2E1D24B5C800F68C71 /* StartingViewController.h */,
+				D25F8F2F1D24B5C800F68C71 /* StartingViewController.m */,
 				D2F5C1A31CFFC02B0083E276 /* ViewController.h */,
 				D2F5C1A41CFFC02B0083E276 /* ViewController.m */,
 				D2F5C1A61CFFC02B0083E276 /* Main.storyboard */,
 				D2DB50A81D1C5FDE00C4F937 /* bubble-yellowgreen@3x.png */,
+				D2DB50AA1D1DC47A00C4F937 /* test background.png */,
 				D2F5C1A91CFFC02B0083E276 /* Assets.xcassets */,
 				D2F5C1AB1CFFC02B0083E276 /* LaunchScreen.storyboard */,
 				D2F5C1AE1CFFC02B0083E276 /* Info.plist */,
@@ -282,6 +290,7 @@
 				D2F5C1AA1CFFC02B0083E276 /* Assets.xcassets in Resources */,
 				D22240B81D00BB0B00FC3A8C /* LexicontextAssets.bundle in Resources */,
 				D2DB50A91D1C5FDE00C4F937 /* bubble-yellowgreen@3x.png in Resources */,
+				D2DB50AB1D1DC47A00C4F937 /* test background.png in Resources */,
 				D2F5C1A81CFFC02B0083E276 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -327,6 +336,7 @@
 				D2F5C1A21CFFC02B0083E276 /* AppDelegate.m in Sources */,
 				D2F5C19F1CFFC02B0083E276 /* main.m in Sources */,
 				D2228D311D00721E00E6477D /* LettersArrays.m in Sources */,
+				D25F8F301D24B5C800F68C71 /* StartingViewController.m in Sources */,
 				D22240BD1D00C1DD00FC3A8C /* Scoring.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
