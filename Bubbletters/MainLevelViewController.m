@@ -1,18 +1,18 @@
 //
-//  ViewController.m
+//  MainLevelViewController.m
 //  Bubbletters
 //
-//  Created by Michael Hoffman on 6/1/16.
+//  Created by Michael Hoffman on 7/7/16.
 //  Copyright © 2016 Strong Atomic. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "MainLevelViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import "Lexicontext.h"
 #import "LettersArrays.h"
 #import "Scoring.h"
 
-@interface ViewController ()
+@interface MainLevelViewController ()
 
 @property (weak, nonatomic) IBOutlet UIView *backAnimation;
 @property (weak, nonatomic) IBOutlet UIImageView *backView;
@@ -81,14 +81,13 @@
 - (IBAction)backspaceTapped:(id)sender;
 - (IBAction)clearAllTapped:(id)sender;
 
-
 @end
 
-@implementation ViewController
+@implementation MainLevelViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    // Do any additional setup after loading the view.
     
     self.lexDict = [Lexicontext sharedDictionary];
     self.letters = [LettersArrays new];
@@ -223,13 +222,11 @@
     self.progressBar.tintColor = [UIColor greenColor];
 }
 
--(void)formatGameButtons:(NSArray *)array
+-(void)formatGameButtons:(NSArray *)array withImage:(UIImage *)image
 {
-    UIImage *background = [UIImage imageNamed:@"bubble-yellowgreen@3x"];
-    
-    for (UIButton *button in [self buttonArray])
+    for (UIButton *button in array)
     {
-        [button setBackgroundImage:background forState:UIControlStateNormal];
+        [button setBackgroundImage:image forState:UIControlStateNormal];
         button.titleLabel.font = [UIFont fontWithName:@"AvenirNext-Bold" size:35];
         [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
@@ -336,7 +333,10 @@
     self.button16.layer.cornerRadius = round;
     [self.container06 addSubview:self.button16];
     
-    [self formatGameButtons:[self buttonArray]];
+    [self formatGameButtons:[self buttonSwapArray01] withImage:[UIImage imageNamed:@"white tile@3x"]];
+    [self formatGameButtons:[self buttonSwapArray02] withImage:[UIImage imageNamed:@"white tile@3x"]];
+    [self formatGameButtons:[self buttonSwapArray03] withImage:[UIImage imageNamed:@"white tile@3x"]];
+    [self formatGameButtons:[self buttonSwapArray04] withImage:[UIImage imageNamed:@"white tile@3x"]];
     [self buttonAction:[self buttonArray]];
     [self letterSwapTimer01];
     [self letterSwapTimer02];
@@ -438,11 +438,11 @@
     {
         self.progressBar.tintColor = [UIColor yellowColor];
     }
-    else if (self.gameSeconds ==15)
+    else if (self.gameSeconds ==25)
     {
         self.progressBar.tintColor = [UIColor redColor];
     }
-    else if (self.gameSeconds ==16)
+    else if (self.gameSeconds ==26)
     {
         [self.progressBarTimer invalidate];
         [self disableGameButtons];
@@ -579,18 +579,5 @@
     }
     return self.wordSum;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @end
