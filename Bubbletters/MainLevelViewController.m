@@ -20,18 +20,18 @@
 @property (weak, nonatomic) IBOutlet UIView *frontAnimation;
 @property (weak, nonatomic) IBOutlet UIView *gameOverView;
 @property (weak, nonatomic) IBOutlet UILabel *wordLabel;
-@property (weak, nonatomic) IBOutlet UIView *container01;
+@property (weak, nonatomic) IBOutlet UIView *container1;
 @property (weak, nonatomic) IBOutlet UILabel *countLabel;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
-@property (weak, nonatomic) IBOutlet UIView *container02;
+@property (weak, nonatomic) IBOutlet UIView *container2;
 @property (weak, nonatomic) IBOutlet UIProgressView *progressBar;
-@property (weak, nonatomic) IBOutlet UIView *container03;
-@property (weak, nonatomic) IBOutlet UIView *container04;
-@property (weak, nonatomic) IBOutlet UIView *container05;
-@property (weak, nonatomic) IBOutlet UIView *container06;
-@property (weak, nonatomic) IBOutlet UIView *container07;
-@property (weak, nonatomic) IBOutlet UIView *container08;
-@property (weak, nonatomic) IBOutlet UIView *container09;
+@property (weak, nonatomic) IBOutlet UIView *container3;
+@property (weak, nonatomic) IBOutlet UIView *container4;
+@property (weak, nonatomic) IBOutlet UIView *container5;
+@property (weak, nonatomic) IBOutlet UIView *container6;
+@property (weak, nonatomic) IBOutlet UIView *container7;
+@property (weak, nonatomic) IBOutlet UIView *container8;
+@property (weak, nonatomic) IBOutlet UIView *container9;
 @property (weak, nonatomic) IBOutlet UIView *container10;
 @property (weak, nonatomic) IBOutlet UIButton *replayButton;
 @property (weak, nonatomic) IBOutlet UIButton *continueButton;
@@ -73,7 +73,16 @@
 @property Scoring *score;
 @property NSInteger wordSum;
 @property NSInteger wordCount;
+@property NSMutableArray *tempScoreArray;
 @property NSMutableArray *scoreArray;
+
+//New Stuff
+@property NSMutableArray *tileArray;
+@property NSMutableArray *whiteTiles;
+@property NSMutableArray *pinkTiles;
+@property NSMutableArray *redTiles;
+@property NSMutableArray *blueTiles;
+@property NSMutableArray *navyTiles;
 
 - (IBAction)replayTapped:(id)sender;
 - (IBAction)continueTapped:(id)sender;
@@ -94,22 +103,41 @@
     self.score = [Scoring new];
     self.tempWordArray = [NSMutableArray new];
     self.validWordArray = [NSMutableArray new];
+    self.tempScoreArray = [NSMutableArray new];
     self.scoreArray = [NSMutableArray new];
     self.scoreLabel.text = @"Score: 0";
     self.swapSeconds = 10.0;
     
+    //This array contains all 16 game tiles (UIButtons)
+    self.tileArray = [NSMutableArray new];
+    self.whiteTiles = [NSMutableArray new];
+    self.pinkTiles = [NSMutableArray new];
+    self.redTiles = [NSMutableArray new];
+    self.blueTiles = [NSMutableArray new];
+    self.navyTiles = [NSMutableArray new];
+    
     //The backAnimation color will be replaced with the game background animation
-    //self.backAnimation.backgroundColor = [UIColor colorWithRed:200/255.0 green:220/255.0 blue:255/255.0 alpha:1.0];
     self.backView.image = [UIImage imageNamed:@"test background"];
     self.frontAnimation.hidden = YES;
     self.gameOverView.hidden = YES;
-    [self gameButtons];
+    
+    [self gameTiles];
+    
     [self formatWordLabel];
     [self formatContainers];
-    [self formatEntryButtons];
-    [self formatGameEndButtons];
+//    [self formatEntryButtons];
+//    [self formatGameEndButtons];
     [self formatProgeressBar];
-    [self.letters initialLettersForButtonArray:[self buttonArray]];
+    
+    [self.letters initialLettersForButtonArray:self.whiteTiles];
+    if ([self.pinkTiles count] > 0)
+    {
+        [self.letters initialLettersForButtonArray:self.pinkTiles];
+    }
+    if ([self.blueTiles count] > 0)
+    {
+        [self.letters initialLettersForButtonArray:self.blueTiles];
+    }
     
     [self gameTimer];
     
@@ -153,7 +181,7 @@
 
 -(NSArray *)containerArray
 {
-    NSArray *container = @[self.container01, self.container02, self.container03, self.container04, self.container05, self.container06, self.container07, self.container08, self.container09, self.container10];
+    NSArray *container = @[self.container1, self.container2, self.container3, self.container4, self.container5, self.container6, self.container7, self.container8, self.container9, self.container10];
     return container;
 }
 
@@ -232,116 +260,217 @@
     }
 }
 
-#pragma mark - Buttons
+#pragma mark - Tiles
 
--(void)gameButtons
+-(void)gameTiles
 {
     NSInteger diameter;
     NSInteger space = 19;
     
     if (UIScreen.mainScreen.bounds.size.height == 480) // 4s
     {
-        diameter = self.container03.frame.size.height*0.80;
+        diameter = self.container3.frame.size.height*0.80;
     }
     else if (UIScreen.mainScreen.bounds.size.height == 568) // 5s
     {
-        diameter = self.container03.frame.size.height*0.81;
+        diameter = self.container3.frame.size.height*0.81;
     }
     else if (UIScreen.mainScreen.bounds.size.height == 667) // 6
     {
-        diameter = self.container03.frame.size.height*1.0;
+        diameter = self.container3.frame.size.height*1.0;
     }
     else if (UIScreen.mainScreen.bounds.size.height == 736) // 6 Plus
     {
-        diameter = self.container03.frame.size.height*1.13;
+        diameter = self.container3.frame.size.height*1.13;
     }
     else if (UIScreen.mainScreen.bounds.size.height == 1024) //For iPad Air
     {
-        diameter = self.container03.frame.size.height*1.70;
+        diameter = self.container3.frame.size.height*1.70;
         space = 83;
     }
     else
     {
         //For iPad Pro
-        diameter = self.container03.frame.size.height*2.27;
+        diameter = self.container3.frame.size.height*2.27;
         space = 117;
     }
     
-    NSInteger round = diameter/2;
+    NSInteger roundTile = diameter/2;
     
-    self.button01 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, diameter, diameter)];
-    self.button01.layer.cornerRadius = round;
-    [self.container03 addSubview:self.button01];
+    //The buttons are created in 4 groups of 4 so that each quartet has the same spacing to fit in properly in each one of the containers.
+    for (NSInteger i=0; i<4; i++)
+    {
+        for (NSInteger j=0; j<4; j++)
+        {
+            UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake((diameter+space)*j, 0, diameter, diameter)];
+            button.layer.cornerRadius = roundTile;
+            [self.tileArray addObject:button];
+            
+        }
+    }
     
-    self.button02 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+(self.button01.frame.size.width+space), 0, diameter, diameter)];
-    self.button02.layer.cornerRadius = round;
-    [self.container03 addSubview:self.button02];
+    [self createTileTags];
+    [self assignTilesToContainers];
     
-    self.button03 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*2)+space*2), 0, diameter, diameter)];
-    self.button03.layer.cornerRadius = round;
-    [self.container03 addSubview:self.button03];
+    //Used as the modifiable base mutArray from which to create special tiles.
+    self.whiteTiles = [NSMutableArray arrayWithArray:self.tileArray];
     
-    self.button04 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*3)+space*3), 0, diameter, diameter)];
-    self.button04.layer.cornerRadius = round;
-    [self.container03 addSubview:self.button04];
+    [self formatPinkTiles];
+    [self formatBlueTiles];
+    [self formatGameButtons:self.whiteTiles withImage:[UIImage imageNamed:@"white tile@3x"]];
+    [self buttonAction:self.tileArray];
+    [self buttonAction:self.pinkTiles];
+    [self buttonAction:self.blueTiles];
     
-    self.button05 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, diameter, diameter)];
-    self.button05.layer.cornerRadius = round;
-    [self.container04 addSubview:self.button05];
     
-    self.button06 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+(self.button01.frame.size.width+space), 0, diameter, diameter)];
-    self.button06.layer.cornerRadius = round;
-    [self.container04 addSubview:self.button06];
-    
-    self.button07 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*2)+space*2), 0, diameter, diameter)];
-    self.button07.layer.cornerRadius = round;
-    [self.container04 addSubview:self.button07];
-    
-    self.button08 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*3)+space*3), 0, diameter, diameter)];
-    self.button08.layer.cornerRadius = round;
-    [self.container04 addSubview:self.button08];
-    
-    self.button09 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, diameter, diameter)];
-    self.button09.layer.cornerRadius = round;
-    [self.container05 addSubview:self.button09];
-    
-    self.button10 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+(self.button01.frame.size.width+space), 0, diameter, diameter)];
-    self.button10.layer.cornerRadius = round;
-    [self.container05 addSubview:self.button10];
-    
-    self.button11 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*2)+space*2), 0, diameter, diameter)];
-    self.button11.layer.cornerRadius = round;
-    [self.container05 addSubview:self.button11];
-    
-    self.button12 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*3)+space*3), 0, diameter, diameter)];
-    self.button12.layer.cornerRadius = round;
-    [self.container05 addSubview:self.button12];
-    
-    self.button13 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, diameter, diameter)];
-    self.button13.layer.cornerRadius = round;
-    [self.container06 addSubview:self.button13];
-    
-    self.button14 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+(self.button01.frame.size.width+space), 0, diameter, diameter)];
-    self.button14.layer.cornerRadius = round;
-    [self.container06 addSubview:self.button14];
-    
-    self.button15 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*2)+space*2), 0, diameter, diameter)];
-    self.button15.layer.cornerRadius = round;
-    [self.container06 addSubview:self.button15];
-    
-    self.button16 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*3)+space*3), 0, diameter, diameter)];
-    self.button16.layer.cornerRadius = round;
-    [self.container06 addSubview:self.button16];
-    
-    [self formatGameButtons:[self buttonSwapArray01] withImage:[UIImage imageNamed:@"white tile@3x"]];
-    [self formatGameButtons:[self buttonSwapArray02] withImage:[UIImage imageNamed:@"white tile@3x"]];
-    [self formatGameButtons:[self buttonSwapArray03] withImage:[UIImage imageNamed:@"white tile@3x"]];
-    [self formatGameButtons:[self buttonSwapArray04] withImage:[UIImage imageNamed:@"white tile@3x"]];
-    [self buttonAction:[self buttonArray]];
-    [self letterSwapTimer01];
-    [self letterSwapTimer02];
-    [self letterSwapTimer03];
-    [self letterSwapTimer04];
+//    self.button01 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, diameter, diameter)];
+//    self.button01.layer.cornerRadius = round;
+//    [self.container03 addSubview:self.button01];
+//    
+//    self.button02 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+(self.button01.frame.size.width+space), 0, diameter, diameter)];
+//    self.button02.layer.cornerRadius = round;
+//    [self.container03 addSubview:self.button02];
+//    
+//    self.button03 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*2)+space*2), 0, diameter, diameter)];
+//    self.button03.layer.cornerRadius = round;
+//    [self.container03 addSubview:self.button03];
+//    
+//    self.button04 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*3)+space*3), 0, diameter, diameter)];
+//    self.button04.layer.cornerRadius = round;
+//    [self.container03 addSubview:self.button04];
+//    
+//    self.button05 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, diameter, diameter)];
+//    self.button05.layer.cornerRadius = round;
+//    [self.container04 addSubview:self.button05];
+//    
+//    self.button06 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+(self.button01.frame.size.width+space), 0, diameter, diameter)];
+//    self.button06.layer.cornerRadius = round;
+//    [self.container04 addSubview:self.button06];
+//    
+//    self.button07 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*2)+space*2), 0, diameter, diameter)];
+//    self.button07.layer.cornerRadius = round;
+//    [self.container04 addSubview:self.button07];
+//    
+//    self.button08 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*3)+space*3), 0, diameter, diameter)];
+//    self.button08.layer.cornerRadius = round;
+//    [self.container04 addSubview:self.button08];
+//    
+//    self.button09 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, diameter, diameter)];
+//    self.button09.layer.cornerRadius = round;
+//    [self.container05 addSubview:self.button09];
+//    
+//    self.button10 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+(self.button01.frame.size.width+space), 0, diameter, diameter)];
+//    self.button10.layer.cornerRadius = round;
+//    [self.container05 addSubview:self.button10];
+//    
+//    self.button11 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*2)+space*2), 0, diameter, diameter)];
+//    self.button11.layer.cornerRadius = round;
+//    [self.container05 addSubview:self.button11];
+//    
+//    self.button12 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*3)+space*3), 0, diameter, diameter)];
+//    self.button12.layer.cornerRadius = round;
+//    [self.container05 addSubview:self.button12];
+//    
+//    self.button13 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, diameter, diameter)];
+//    self.button13.layer.cornerRadius = round;
+//    [self.container06 addSubview:self.button13];
+//    
+//    self.button14 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+(self.button01.frame.size.width+space), 0, diameter, diameter)];
+//    self.button14.layer.cornerRadius = round;
+//    [self.container06 addSubview:self.button14];
+//    
+//    self.button15 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*2)+space*2), 0, diameter, diameter)];
+//    self.button15.layer.cornerRadius = round;
+//    [self.container06 addSubview:self.button15];
+//    
+//    self.button16 = [[UIButton alloc]initWithFrame:CGRectMake(self.button01.frame.origin.x+((self.button01.frame.size.width*3)+space*3), 0, diameter, diameter)];
+//    self.button16.layer.cornerRadius = round;
+//    [self.container06 addSubview:self.button16];
+//    
+//    [self formatGameButtons:[self buttonSwapArray01] withImage:[UIImage imageNamed:@"white tile@3x"]];
+//    [self formatGameButtons:[self buttonSwapArray02] withImage:[UIImage imageNamed:@"white tile@3x"]];
+//    [self formatGameButtons:[self buttonSwapArray03] withImage:[UIImage imageNamed:@"white tile@3x"]];
+//    [self formatGameButtons:[self buttonSwapArray04] withImage:[UIImage imageNamed:@"white tile@3x"]];
+//    [self buttonAction:[self buttonArray]];
+//    [self letterSwapTimer01];
+//    [self letterSwapTimer02];
+//    [self letterSwapTimer03];
+//    [self letterSwapTimer04];
+}
+
+-(void)createTileTags
+{
+    for (NSInteger j=0; j<[self.tileArray count]; j++)
+    {
+        UIButton *button;
+        button = [self.tileArray objectAtIndex:j];
+        [button setTag:j+1];
+    }
+}
+
+-(void)assignTilesToContainers
+{
+    for (UIButton *button in self.tileArray)
+    {
+        NSLog(@"Button Tag = %ld", (long)button.tag);
+        
+        if ([button tag] < 5)
+        {
+            [self.container3 addSubview:button];
+        }
+        else if ([button tag] > 4 && [button tag] < 9)
+        {
+            [self.container4 addSubview:button];
+        }
+        else if ([button tag] > 8 && [button tag] < 13)
+        {
+            [self.container5 addSubview:button];
+        }
+        else if ([button tag] > 12)
+        {
+            [self.container6 addSubview:button];
+        }
+    }
+}
+
+#pragma mark - Special Tiles
+
+-(void)selectPinkTiles
+{
+    UIButton *button;
+    for (NSInteger i=0; i<2; i++)
+    {
+        NSInteger randomTile = arc4random_uniform((u_int32_t)[self.whiteTiles count]);
+        NSLog(@"Random Button: %ld", (long)randomTile);
+        button = [self.whiteTiles objectAtIndex:randomTile];
+        [self.pinkTiles addObject:button];
+        [self.whiteTiles removeObject:button];
+    }
+}
+
+-(void)formatPinkTiles
+{
+    [self selectPinkTiles];
+    [self formatGameButtons:self.pinkTiles withImage:[UIImage imageNamed:@"pink tile@3x"]];
+}
+
+-(void)selectBlueTiles
+{
+    UIButton *button;
+    for (NSInteger i=0; i<1; i++)
+    {
+        NSInteger randomTile = arc4random_uniform((u_int32_t)[self.whiteTiles count]);
+        NSLog(@"Random Button: %ld", (long)randomTile);
+        button = [self.whiteTiles objectAtIndex:randomTile];
+        [self.blueTiles addObject:button];
+        [self.whiteTiles removeObject:button];
+    }
+}
+
+-(void)formatBlueTiles
+{
+    [self selectBlueTiles];
+    [self formatGameButtons:self.blueTiles withImage:[UIImage imageNamed:@"blue tile@3x"]];
 }
 
 -(void)disableGameButtons
@@ -483,7 +612,44 @@
 
 -(void)buttonTapped:(UIButton *)button
 {
+    NSInteger regular = 1;
+    NSInteger dblLetter = 2;
+    NSInteger trplLetter = 3;
     [self.tempWordArray addObject:button.titleLabel.text];
+    
+    //Regular Letter Tiles
+    for (UIButton *white in self.whiteTiles)
+    {
+        if ([button tag] == white.tag)
+        {
+            [self.tempScoreArray addObject:[NSNumber numberWithInteger:[self.score valueForLetter:white.titleLabel.text withMultiplier:regular]]];
+            
+            NSLog(@"White Letter = %@\nWhite Value = %ld", white.titleLabel.text, (long)[self.score valueForLetter:white.titleLabel.text withMultiplier:regular]);
+        }
+    }
+    
+    //Double Letter Tiles
+    for (UIButton *pink in self.pinkTiles)
+    {
+        if ([button tag] == pink.tag)
+        {
+            [self.tempScoreArray addObject:[NSNumber numberWithInteger:[self.score valueForLetter:pink.titleLabel.text withMultiplier:dblLetter]]];
+            
+            NSLog(@"Pink Letter = %@\nPink Value = %ld", pink.titleLabel.text, (long)[self.score valueForLetter:pink.titleLabel.text withMultiplier:dblLetter]);
+        }
+    }
+    
+    //Triple Letter Tiles
+    for (UIButton *blue in self.blueTiles)
+    {
+        if ([button tag] == blue.tag)
+        {
+            [self.tempScoreArray addObject:[NSNumber numberWithInteger:[self.score valueForLetter:blue.titleLabel.text withMultiplier:trplLetter]]];
+            
+            NSLog(@"Blue Letter = %@\nBlue Value = %ld", blue.titleLabel.text, (long)[self.score valueForLetter:blue.titleLabel.text withMultiplier:trplLetter]);
+        }
+    }
+    
     NSLog(@"WORD ARRAY: %@", _tempWordArray);
     [self wordLabelDisplay];
 }
@@ -513,6 +679,7 @@
     self.progressBar.tintColor = [UIColor greenColor]; //otherwise progress bar restarts as end color
     [self.tempWordArray removeAllObjects];
     [self.validWordArray removeAllObjects];
+    [self.tempScoreArray removeAllObjects];
     [self.scoreArray removeAllObjects];
     [self enableGameButtons];
     [self enableEntryButtons];
@@ -545,12 +712,14 @@
         self.countLabel.text = [NSString stringWithFormat:@"Words: %ld", (long)self.wordCount];
         [self.validWordArray addObject:self.wordLabel.text];
         [self.tempWordArray removeAllObjects];
+        [self.tempScoreArray removeAllObjects];
         self.wordLabel.text = @"";
     }
     else
     {
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
         [self.tempWordArray removeAllObjects];
+        [self.tempScoreArray removeAllObjects];
         self.wordLabel.text = @"";
     }
 }
@@ -558,20 +727,23 @@
 - (IBAction)backspaceTapped:(id)sender
 {
     [self.tempWordArray removeLastObject];
+    [self.tempScoreArray removeLastObject];
     self.wordLabel.text = [self.tempWordArray componentsJoinedByString:@""];
 }
 
 - (IBAction)clearAllTapped:(id)sender
 {
     [self.tempWordArray removeAllObjects];
+    [self.tempScoreArray removeAllObjects];
     self.wordLabel.text = @"";
 }
 
 -(NSInteger)scoring
 {
     self.wordSum = 0;
-    NSInteger sum = [self.score scoring:[self.score mainScoringDict] for:self.tempWordArray];
-    [self.scoreArray addObject:[NSNumber numberWithInteger:sum]];
+//    NSInteger sum = [self.score scoring:[self.score mainScoringDict] for:self.tempWordArray];
+//    [self.scoreArray addObject:[NSNumber numberWithInteger:sum]];
+    [self.scoreArray addObjectsFromArray:self.tempScoreArray];
     NSLog(@"Score: %@", self.scoreArray);
     for (NSNumber *points in self.scoreArray)
     {

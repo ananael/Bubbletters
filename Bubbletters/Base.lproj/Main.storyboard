@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ByS-WN-sOF">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ByS-WN-sOF">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -101,7 +101,7 @@
                                                         <constraint firstAttribute="width" constant="150" id="pbW-od-ODY"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="40 / 1,000" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7qF-4H-P5F">
@@ -110,7 +110,7 @@
                                                         <constraint firstAttribute="width" constant="150" id="LW3-wf-PPB"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -227,7 +227,7 @@
                                 <rect key="frame" x="20" y="103" width="560" height="10"/>
                                 <subviews>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" translatesAutoresizingMaskIntoConstraints="NO" id="GwL-UE-gkL">
-                                        <rect key="frame" x="0.0" y="4" width="560" height="2.5"/>
+                                        <rect key="frame" x="0.0" y="4" width="560" height="3"/>
                                     </progressView>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -456,16 +456,16 @@
                         <outlet property="backView" destination="fk9-XD-hcC" id="L1w-Mx-AiP"/>
                         <outlet property="backspaceButton" destination="sPq-CJ-wxi" id="phw-Wo-KtC"/>
                         <outlet property="clearAllButton" destination="hvq-ql-2jS" id="UD4-Wr-LD1"/>
-                        <outlet property="container01" destination="8Xe-dD-4gS" id="EjK-fR-2d8"/>
-                        <outlet property="container02" destination="LlE-M3-bRu" id="rSU-ln-a2K"/>
-                        <outlet property="container03" destination="JtL-HO-p10" id="rMh-SM-2MT"/>
-                        <outlet property="container04" destination="1iN-qF-vd3" id="qTU-Ba-978"/>
-                        <outlet property="container05" destination="vB1-Gl-mNf" id="So7-Eh-niv"/>
-                        <outlet property="container06" destination="WiR-n7-5jL" id="3Fc-fd-jOh"/>
-                        <outlet property="container07" destination="GLe-2J-5VZ" id="x5h-oO-Zga"/>
-                        <outlet property="container08" destination="6x2-BN-R7y" id="F9X-2D-m0F"/>
-                        <outlet property="container09" destination="ZAu-Y3-nO7" id="GnV-t3-ByW"/>
+                        <outlet property="container1" destination="8Xe-dD-4gS" id="RZg-dl-jZZ"/>
                         <outlet property="container10" destination="IBS-Cq-wsX" id="Egf-Nf-8tM"/>
+                        <outlet property="container2" destination="LlE-M3-bRu" id="c35-RG-zpp"/>
+                        <outlet property="container3" destination="JtL-HO-p10" id="HZy-vI-Mv0"/>
+                        <outlet property="container4" destination="1iN-qF-vd3" id="YBI-hq-x8e"/>
+                        <outlet property="container5" destination="vB1-Gl-mNf" id="xsu-mc-dGA"/>
+                        <outlet property="container6" destination="WiR-n7-5jL" id="Q5p-iA-0gp"/>
+                        <outlet property="container7" destination="GLe-2J-5VZ" id="mSZ-XS-MCE"/>
+                        <outlet property="container8" destination="6x2-BN-R7y" id="U53-4u-wKw"/>
+                        <outlet property="container9" destination="ZAu-Y3-nO7" id="p1E-4K-IQk"/>
                         <outlet property="continueButton" destination="zca-Us-hH1" id="8Lv-te-z1s"/>
                         <outlet property="countLabel" destination="eeS-VY-fM4" id="8Kr-Ef-o01"/>
                         <outlet property="frontAnimation" destination="Qee-Y6-x0g" id="dH3-To-Wlo"/>

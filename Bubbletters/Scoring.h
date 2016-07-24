@@ -13,5 +13,7 @@
 
 -(NSDictionary *)mainScoringDict;
 -(NSInteger)scoring:(NSDictionary *)dict for:(NSMutableArray *)array;
+-(NSInteger)valueForLetter:(NSString *)letter;
+-(NSInteger)valueForLetter:(NSString *)letter withMultiplier:(NSInteger)multiplier;
 
 @end

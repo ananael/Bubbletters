@@ -60,5 +60,23 @@
     return wordSum;
 }
 
+-(NSInteger)valueForLetter:(NSString *)letter
+{
+    NSNumber *value;
+    
+    value = [[self mainScoringDict] valueForKey:letter];
+    
+    return [value integerValue];
+}
+
+-(NSInteger)valueForLetter:(NSString *)letter withMultiplier:(NSInteger)multiplier
+{
+    NSNumber *value;
+    
+    value = [[self mainScoringDict] valueForKey:letter];
+    
+    return [value integerValue]*multiplier;
+}
+
 
 @end
