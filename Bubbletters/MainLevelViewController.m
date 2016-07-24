@@ -14,6 +14,7 @@
 
 @interface MainLevelViewController ()
 
+//Storyboard-linked properties
 @property (weak, nonatomic) IBOutlet UIView *backAnimation;
 @property (weak, nonatomic) IBOutlet UIImageView *backView;
 
@@ -84,6 +85,11 @@
 @property NSMutableArray *blueTiles;
 @property NSMutableArray *navyTiles;
 
+@property NSMutableArray *tileSwapOne;
+@property NSMutableArray *tileSwapTwo;
+@property NSMutableArray *tileSwapThree;
+@property NSMutableArray *tileSwapFour;
+
 - (IBAction)replayTapped:(id)sender;
 - (IBAction)continueTapped:(id)sender;
 - (IBAction)submitTapped:(id)sender;
@@ -106,15 +112,27 @@
     self.tempScoreArray = [NSMutableArray new];
     self.scoreArray = [NSMutableArray new];
     self.scoreLabel.text = @"Score: 0";
-    self.swapSeconds = 10.0;
+    self.swapSeconds = 8.0;
     
-    //This array contains all 16 game tiles (UIButtons)
+    //The tileArray contains all 16 game tiles (UIButtons)
     self.tileArray = [NSMutableArray new];
+    //The whiteTiles array contains the tileArray and is used for removing special buttons
     self.whiteTiles = [NSMutableArray new];
+    //The pinkTiles contains the double-letter tiles
     self.pinkTiles = [NSMutableArray new];
+    //The redTiles contains the double-word tiles
     self.redTiles = [NSMutableArray new];
+    //The blueTiles contains the triple-letter tiles
     self.blueTiles = [NSMutableArray new];
+    //The navyTiles contains the triple-word tiles
     self.navyTiles = [NSMutableArray new];
+    //The tileSwapArray contains the tileArray and is used when creating the arrays for letter-swapping
+    self.tileSwapOne = [NSMutableArray new];
+    self.tileSwapTwo = [NSMutableArray new];
+    self.tileSwapThree = [NSMutableArray new];
+    self.tileSwapFour = [NSMutableArray new];
+    
+    
     
     //The backAnimation color will be replaced with the game background animation
     self.backView.image = [UIImage imageNamed:@"test background"];
@@ -125,8 +143,8 @@
     
     [self formatWordLabel];
     [self formatContainers];
-//    [self formatEntryButtons];
-//    [self formatGameEndButtons];
+    [self formatEntryButtons];
+    [self formatGameEndButtons];
     [self formatProgeressBar];
     
     [self.letters initialLettersForButtonArray:self.whiteTiles];
@@ -149,35 +167,35 @@
     // Dispose of any resources that can be recreated.
 }
 
--(NSArray *)buttonArray
-{
-    NSArray *buttons = @[self.button01, self.button02, self.button03, self.button04, self.button05, self.button06, self.button07, self.button08, self.button09, self.button10, self.button11, self.button12, self.button13, self.button14, self.button15, self.button16];
-    return buttons;
-}
-
--(NSArray *)buttonSwapArray01
-{
-    NSArray *buttons = @[self.button01, self.button08, self.button10, self.button15];
-    return buttons;
-}
-
--(NSArray *)buttonSwapArray02
-{
-    NSArray *buttons = @[self.button02, self.button07, self.button12, self.button13];
-    return buttons;
-}
-
--(NSArray *)buttonSwapArray03
-{
-    NSArray *buttons = @[self.button03, self.button06, self.button09, self.button16];
-    return buttons;
-}
-
--(NSArray *)buttonSwapArray04
-{
-    NSArray *buttons = @[self.button04, self.button05, self.button11, self.button14];
-    return buttons;
-}
+//-(NSArray *)buttonArray
+//{
+//    NSArray *buttons = @[self.button01, self.button02, self.button03, self.button04, self.button05, self.button06, self.button07, self.button08, self.button09, self.button10, self.button11, self.button12, self.button13, self.button14, self.button15, self.button16];
+//    return buttons;
+//}
+//
+//-(NSArray *)buttonSwapArray01
+//{
+//    NSArray *buttons = @[self.button01, self.button08, self.button10, self.button15];
+//    return buttons;
+//}
+//
+//-(NSArray *)buttonSwapArray02
+//{
+//    NSArray *buttons = @[self.button02, self.button07, self.button12, self.button13];
+//    return buttons;
+//}
+//
+//-(NSArray *)buttonSwapArray03
+//{
+//    NSArray *buttons = @[self.button03, self.button06, self.button09, self.button16];
+//    return buttons;
+//}
+//
+//-(NSArray *)buttonSwapArray04
+//{
+//    NSArray *buttons = @[self.button04, self.button05, self.button11, self.button14];
+//    return buttons;
+//}
 
 -(NSArray *)containerArray
 {
@@ -314,6 +332,8 @@
     
     //Used as the modifiable base mutArray from which to create special tiles.
     self.whiteTiles = [NSMutableArray arrayWithArray:self.tileArray];
+    //Used when creating the arrays for letter-swapping
+    self.tileSwapOne = [NSMutableArray arrayWithArray:self.tileArray];
     
     [self formatPinkTiles];
     [self formatBlueTiles];
@@ -321,6 +341,12 @@
     [self buttonAction:self.tileArray];
     [self buttonAction:self.pinkTiles];
     [self buttonAction:self.blueTiles];
+    
+    [self createTileSwapArrays];
+    [self letterSwapTimer01];
+    [self letterSwapTimer02];
+    [self letterSwapTimer03];
+    [self letterSwapTimer04];
     
     
 //    self.button01 = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, diameter, diameter)];
@@ -433,6 +459,8 @@
     }
 }
 
+
+
 #pragma mark - Special Tiles
 
 -(void)selectPinkTiles
@@ -441,7 +469,7 @@
     for (NSInteger i=0; i<2; i++)
     {
         NSInteger randomTile = arc4random_uniform((u_int32_t)[self.whiteTiles count]);
-        NSLog(@"Random Button: %ld", (long)randomTile);
+        //NSLog(@"Random Pink Button: %ld", (long)randomTile);
         button = [self.whiteTiles objectAtIndex:randomTile];
         [self.pinkTiles addObject:button];
         [self.whiteTiles removeObject:button];
@@ -460,7 +488,7 @@
     for (NSInteger i=0; i<1; i++)
     {
         NSInteger randomTile = arc4random_uniform((u_int32_t)[self.whiteTiles count]);
-        NSLog(@"Random Button: %ld", (long)randomTile);
+        //NSLog(@"Random Blue Button: %ld", (long)randomTile);
         button = [self.whiteTiles objectAtIndex:randomTile];
         [self.blueTiles addObject:button];
         [self.whiteTiles removeObject:button];
@@ -475,7 +503,7 @@
 
 -(void)disableGameButtons
 {
-    for (UIButton *button in [self buttonArray])
+    for (UIButton *button in self.tileArray)
     {
         [button setEnabled:NO];
     }
@@ -491,7 +519,7 @@
 
 -(void)enableGameButtons
 {
-    for (UIButton *button in [self buttonArray])
+    for (UIButton *button in self.tileArray)
     {
         [button setEnabled:YES];
     }
@@ -563,15 +591,15 @@
     self.progressBar.progress = (float)self.gameSeconds/120;
     
     //Provides an upper limit to the timer with instructions to stop counting when the counter reaches a specific value.
-    if (self.gameSeconds == 10)
+    if (self.gameSeconds == 90)
     {
         self.progressBar.tintColor = [UIColor yellowColor];
     }
-    else if (self.gameSeconds ==25)
+    else if (self.gameSeconds ==110)
     {
         self.progressBar.tintColor = [UIColor redColor];
     }
-    else if (self.gameSeconds ==26)
+    else if (self.gameSeconds ==120)
     {
         [self.progressBarTimer invalidate];
         [self disableGameButtons];
@@ -590,24 +618,54 @@
     }
 }
 
+//Randomly add 4 buttons to each of the tileSwap arrays for use in the letterSwap methods
+-(void)createTileSwapArrays
+{
+    UIButton *button;
+    for (NSInteger i=0; i<4; i++)
+    {
+        NSInteger randomTile = arc4random_uniform((u_int32_t)[self.tileSwapOne count]);
+        NSLog(@"Tile Swap One: %ld", (long)randomTile);
+        button = [self.tileSwapOne objectAtIndex:randomTile];
+        [self.tileSwapTwo addObject:button];
+        [self.tileSwapOne removeObject:button];
+    }
+    for (NSInteger i=0; i<4; i++)
+    {
+        NSInteger randomTile = arc4random_uniform((u_int32_t)[self.tileSwapOne count]);
+        //NSLog(@"Random Button: %ld", (long)randomTile);
+        button = [self.tileSwapOne objectAtIndex:randomTile];
+        [self.tileSwapThree addObject:button];
+        [self.tileSwapOne removeObject:button];
+    }
+    for (NSInteger i=0; i<4; i++)
+    {
+        NSInteger randomTile = arc4random_uniform((u_int32_t)[self.tileSwapOne count]);
+        //NSLog(@"Random Button: %ld", (long)randomTile);
+        button = [self.tileSwapOne objectAtIndex:randomTile];
+        [self.tileSwapFour addObject:button];
+        [self.tileSwapOne removeObject:button];
+    }
+}
+
 -(void)letterSwap01
 {
-    [self.letters letterSwapForArray:[self buttonSwapArray01]];
+    [self.letters letterSwapForArray:self.tileSwapOne];
 }
 
 -(void)letterSwap02
 {
-    [self.letters letterSwapForArray:[self buttonSwapArray02]];
+    [self.letters letterSwapForArray:self.tileSwapTwo];
 }
 
 -(void)letterSwap03
 {
-    [self.letters letterSwapForArray:[self buttonSwapArray03]];
+    [self.letters letterSwapForArray:self.tileSwapThree];
 }
 
 -(void)letterSwap04
 {
-    [self.letters letterSwapForArray:[self buttonSwapArray04]];
+    [self.letters letterSwapForArray:self.tileSwapFour];
 }
 
 -(void)buttonTapped:(UIButton *)button
@@ -685,7 +743,7 @@
     [self enableEntryButtons];
     self.gameOverView.hidden = YES;
     [self gameTimer];
-    [self.letters initialLettersForButtonArray:[self buttonArray]]; //otherwise starts with same ending letters
+    [self.letters initialLettersForButtonArray:self.tileArray]; //otherwise starts with same ending letters
     [self letterSwapTimer01]; //validates the timer for new game
     [self letterSwapTimer02]; //validates the timer for new game
     [self letterSwapTimer03]; //validates the timer for new game

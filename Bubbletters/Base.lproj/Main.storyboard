@@ -227,7 +227,7 @@
                                 <rect key="frame" x="20" y="103" width="560" height="10"/>
                                 <subviews>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" translatesAutoresizingMaskIntoConstraints="NO" id="GwL-UE-gkL">
-                                        <rect key="frame" x="0.0" y="4" width="560" height="3"/>
+                                        <rect key="frame" x="0.0" y="4" width="560" height="2.5"/>
                                     </progressView>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="0.40000000600000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -332,7 +332,7 @@
                                         <rect key="frame" x="0.0" y="440" width="600" height="100"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yvn-sH-iIr" userLabel="replay">
-                                                <rect key="frame" x="20" y="0.0" width="225" height="100"/>
+                                                <rect key="frame" x="40" y="0.0" width="225" height="100"/>
                                                 <color key="backgroundColor" red="0.60392156860000001" green="0.80392156859999997" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="25"/>
                                                 <state key="normal" title="replay"/>
@@ -341,7 +341,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zca-Us-hH1" userLabel="continue">
-                                                <rect key="frame" x="355" y="0.0" width="225" height="100"/>
+                                                <rect key="frame" x="335" y="0.0" width="225" height="100"/>
                                                 <color key="backgroundColor" red="0.60392156860000001" green="0.80392156859999997" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" name="AvenirNext-Bold" family="Avenir Next" pointSize="25"/>
                                                 <state key="normal" title="continue"/>
@@ -355,11 +355,11 @@
                                             <constraint firstItem="yvn-sH-iIr" firstAttribute="width" secondItem="IBS-Cq-wsX" secondAttribute="width" multiplier="0.375" id="6t4-tE-hMY"/>
                                             <constraint firstAttribute="bottom" secondItem="zca-Us-hH1" secondAttribute="bottom" id="Btb-rI-BtV"/>
                                             <constraint firstItem="yvn-sH-iIr" firstAttribute="top" secondItem="IBS-Cq-wsX" secondAttribute="top" id="CSf-iK-eGX"/>
-                                            <constraint firstItem="yvn-sH-iIr" firstAttribute="leading" secondItem="IBS-Cq-wsX" secondAttribute="leading" constant="20" id="CxY-5u-vpn"/>
+                                            <constraint firstItem="yvn-sH-iIr" firstAttribute="leading" secondItem="IBS-Cq-wsX" secondAttribute="leading" constant="40" id="CxY-5u-vpn"/>
                                             <constraint firstItem="zca-Us-hH1" firstAttribute="top" secondItem="IBS-Cq-wsX" secondAttribute="top" id="GfD-pq-LVq"/>
                                             <constraint firstItem="yvn-sH-iIr" firstAttribute="height" secondItem="IBS-Cq-wsX" secondAttribute="height" id="JsT-Nn-Uiv"/>
                                             <constraint firstItem="yvn-sH-iIr" firstAttribute="centerY" secondItem="IBS-Cq-wsX" secondAttribute="centerY" id="QD3-di-0Gn"/>
-                                            <constraint firstAttribute="trailing" secondItem="zca-Us-hH1" secondAttribute="trailing" constant="20" id="UCu-dh-o2k"/>
+                                            <constraint firstAttribute="trailing" secondItem="zca-Us-hH1" secondAttribute="trailing" constant="40" id="UCu-dh-o2k"/>
                                             <constraint firstItem="zca-Us-hH1" firstAttribute="width" secondItem="yvn-sH-iIr" secondAttribute="width" id="Zf3-GX-2F9"/>
                                             <constraint firstItem="zca-Us-hH1" firstAttribute="height" secondItem="yvn-sH-iIr" secondAttribute="height" id="dYk-8x-dKy"/>
                                             <constraint firstItem="zca-Us-hH1" firstAttribute="centerY" secondItem="IBS-Cq-wsX" secondAttribute="centerY" id="e9z-fY-R06"/>
