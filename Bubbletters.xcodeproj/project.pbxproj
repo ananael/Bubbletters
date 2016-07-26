@@ -12,6 +12,8 @@
 		D22240BD1D00C1DD00FC3A8C /* Scoring.m in Sources */ = {isa = PBXBuildFile; fileRef = D22240BC1D00C1DD00FC3A8C /* Scoring.m */; };
 		D22240BF1D01040100FC3A8C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D22240BE1D01040100FC3A8C /* AudioToolbox.framework */; };
 		D2228D311D00721E00E6477D /* LettersArrays.m in Sources */ = {isa = PBXBuildFile; fileRef = D2228D301D00721E00E6477D /* LettersArrays.m */; };
+		D22EE92F1D46F61200C21BB4 /* replay button@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D22EE92D1D46F61200C21BB4 /* replay button@3x.png */; };
+		D22EE9301D46F61200C21BB4 /* continue button@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D22EE92E1D46F61200C21BB4 /* continue button@3x.png */; };
 		D25EC4681D2F16B90037E889 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25EC4671D2F16B90037E889 /* HomeViewController.m */; };
 		D25EC46B1D2F184F0037E889 /* HomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D25EC46A1D2F184F0037E889 /* HomeTableViewCell.m */; };
 		D25EC46E1D2F1A550037E889 /* MainLevelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D25EC46D1D2F1A550037E889 /* MainLevelViewController.m */; };
@@ -58,6 +60,8 @@
 		D22240BE1D01040100FC3A8C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D2228D2F1D00721E00E6477D /* LettersArrays.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LettersArrays.h; sourceTree = "<group>"; };
 		D2228D301D00721E00E6477D /* LettersArrays.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LettersArrays.m; sourceTree = "<group>"; };
+		D22EE92D1D46F61200C21BB4 /* replay button@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "replay button@3x.png"; sourceTree = "<group>"; };
+		D22EE92E1D46F61200C21BB4 /* continue button@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "continue button@3x.png"; sourceTree = "<group>"; };
 		D25EC4661D2F16B90037E889 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
 		D25EC4671D2F16B90037E889 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
 		D25EC4691D2F184F0037E889 /* HomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeTableViewCell.h; sourceTree = "<group>"; };
@@ -144,6 +148,8 @@
 				D2D007DB1D2F0E5100669BE8 /* red tile@3x.png */,
 				D2D007D91D2F0E5100669BE8 /* white tile@3x.png */,
 				D2D007E31D2F0E8D00669BE8 /* yellowgreen tile@3x.png */,
+				D22EE92D1D46F61200C21BB4 /* replay button@3x.png */,
+				D22EE92E1D46F61200C21BB4 /* continue button@3x.png */,
 			);
 			name = "game tiles";
 			sourceTree = "<group>";
@@ -330,11 +336,13 @@
 				D22240B81D00BB0B00FC3A8C /* LexicontextAssets.bundle in Resources */,
 				D2D007DF1D2F0E5100669BE8 /* pink tile@3x.png in Resources */,
 				D25F8F351D26EC5000F68C71 /* Bubbletters banner@2x.png in Resources */,
+				D22EE92F1D46F61200C21BB4 /* replay button@3x.png in Resources */,
 				D2D007E21D2F0E5100669BE8 /* navy tile@3x.png in Resources */,
 				D2DB50AB1D1DC47A00C4F937 /* test background.png in Resources */,
 				D2D007DE1D2F0E5100669BE8 /* white tile@3x.png in Resources */,
 				D2D007E41D2F0E8D00669BE8 /* yellowgreen tile@3x.png in Resources */,
 				D2D007E01D2F0E5100669BE8 /* red tile@3x.png in Resources */,
+				D22EE9301D46F61200C21BB4 /* continue button@3x.png in Resources */,
 				D2F5C1A81CFFC02B0083E276 /* Main.storyboard in Resources */,
 				D2D007E11D2F0E5100669BE8 /* blue tile@3x.png in Resources */,
 			);
