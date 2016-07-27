@@ -353,28 +353,28 @@
     
     if (UIScreen.mainScreen.bounds.size.height == 480) // 4s
     {
-        diameter = self.container3.frame.size.height*0.80;
+        diameter = self.container10.frame.size.height*0.80;
     }
     else if (UIScreen.mainScreen.bounds.size.height == 568) // 5s
     {
-        diameter = self.container3.frame.size.height*0.81;
+        diameter = self.container10.frame.size.height*0.81;
     }
     else if (UIScreen.mainScreen.bounds.size.height == 667) // 6
     {
-        diameter = self.container3.frame.size.height*1.0;
+        diameter = self.container10.frame.size.height*1.0;
     }
     else if (UIScreen.mainScreen.bounds.size.height == 736) // 6 Plus
     {
-        diameter = self.container3.frame.size.height*1.13;
+        diameter = self.container10.frame.size.height*1.13;
     }
     else if (UIScreen.mainScreen.bounds.size.height == 1024) //For iPad Air
     {
-        diameter = self.container3.frame.size.height*1.70;
+        diameter = self.container10.frame.size.height*1.70;
     }
     else
     {
         //For iPad Pro
-        diameter = self.container3.frame.size.height*2.27;
+        diameter = self.container10.frame.size.height*2.27;
     }
     
     NSInteger xAxis = self.view.center.x;
@@ -392,28 +392,28 @@
     
     if (UIScreen.mainScreen.bounds.size.height == 480) // 4s
     {
-        diameter = self.container3.frame.size.height*0.80;
+        diameter = self.container10.frame.size.height*0.80;
     }
     else if (UIScreen.mainScreen.bounds.size.height == 568) // 5s
     {
-        diameter = self.container3.frame.size.height*0.81;
+        diameter = self.container10.frame.size.height*0.81;
     }
     else if (UIScreen.mainScreen.bounds.size.height == 667) // 6
     {
-        diameter = self.container3.frame.size.height*1.0;
+        diameter = self.container10.frame.size.height*1.0;
     }
     else if (UIScreen.mainScreen.bounds.size.height == 736) // 6 Plus
     {
-        diameter = self.container3.frame.size.height*1.13;
+        diameter = self.container10.frame.size.height*1.13;
     }
     else if (UIScreen.mainScreen.bounds.size.height == 1024) //For iPad Air
     {
-        diameter = self.container3.frame.size.height*1.70;
+        diameter = self.container10.frame.size.height*1.70;
     }
     else
     {
         //For iPad Pro
-        diameter = self.container3.frame.size.height*2.27;
+        diameter = self.container10.frame.size.height*2.27;
     }
     
     NSInteger xAxis = self.view.center.x;
