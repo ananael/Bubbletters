@@ -206,7 +206,7 @@
 
 -(void)formatWordLabel
 {
-    self.wordLabel.backgroundColor = [UIColor colorWithRed:230/255.0 green:255/255.0 blue:205/255.0 alpha:1.0];
+    self.wordLabel.backgroundColor = [self.methods colorWithHexString:@"E6FFCD" alpha:1.0];
     self.wordLabel.layer.borderColor = [UIColor blackColor].CGColor;
     self.wordLabel.layer.borderWidth = 2;
     self.wordLabel.layer.cornerRadius = 15;
@@ -318,28 +318,28 @@
             [self buttonAction:self.tileArray];
             break;
         case 2:
-            [self createPinkTiles];
+            [self createPinkTiles:3];
             [self formatGameButtons:self.whiteTiles withImage:[UIImage imageNamed:@"white tile@3x"]];
             [self buttonAction:self.tileArray];
-            [self buttonAction:self.pinkTiles];
+//            [self buttonAction:self.pinkTiles];
             break;
         case 3:
-            [self createBlueTiles];
+            [self createBlueTiles:1];
             [self formatGameButtons:self.whiteTiles withImage:[UIImage imageNamed:@"white tile@3x"]];
             [self buttonAction:self.tileArray];
-            [self buttonAction:self.blueTiles];
+//            [self buttonAction:self.blueTiles];
             break;
         case 4:
-            [self createPinkTiles];
-            [self createBlueTiles];
-            [self createRedTiles];
-            [self createNavyTiles];
+            [self createPinkTiles:2];
+            [self createBlueTiles:1];
+            [self createRedTiles:1];
+            [self createNavyTiles:1];
             [self formatGameButtons:self.whiteTiles withImage:[UIImage imageNamed:@"white tile@3x"]];
             [self buttonAction:self.tileArray];
-            [self buttonAction:self.pinkTiles];
-            [self buttonAction:self.blueTiles];
-            [self buttonAction:self.redTiles];
-            [self buttonAction:self.navyTiles];
+//            [self buttonAction:self.pinkTiles];
+//            [self buttonAction:self.blueTiles];
+//            [self buttonAction:self.redTiles];
+//            [self buttonAction:self.navyTiles];
             break;
             
         default:
@@ -481,32 +481,32 @@
 
 #pragma mark - Special Tiles
 
--(void)createPinkTiles
+-(void)createPinkTiles:(NSInteger)quantity
 {
-    [self.methods selectSpecialTiles:2 fromArray:self.whiteTiles toArray:self.pinkTiles];
-    
+    [self.methods selectSpecialTiles:quantity fromArray:self.whiteTiles toArray:self.pinkTiles];
     [self formatGameButtons:self.pinkTiles withImage:[UIImage imageNamed:@"pink tile@3x"]];
+    [self buttonAction:self.pinkTiles];
 }
 
--(void)createBlueTiles
+-(void)createBlueTiles:(NSInteger)quantity
 {
-    [self.methods selectSpecialTiles:1 fromArray:self.whiteTiles toArray:self.blueTiles];
-    
+    [self.methods selectSpecialTiles:quantity fromArray:self.whiteTiles toArray:self.blueTiles];
     [self formatGameButtons:self.blueTiles withImage:[UIImage imageNamed:@"blue tile@3x"]];
+    [self buttonAction:self.blueTiles];
 }
 
--(void)createRedTiles
+-(void)createRedTiles:(NSInteger)quantity
 {
-    [self.methods selectSpecialTiles:1 fromArray:self.whiteTiles toArray:self.redTiles];
-    
+    [self.methods selectSpecialTiles:quantity fromArray:self.whiteTiles toArray:self.redTiles];
     [self formatGameButtons:self.redTiles withImage:[UIImage imageNamed:@"red tile@3x"]];
+    [self buttonAction:self.redTiles];
 }
 
--(void)createNavyTiles
+-(void)createNavyTiles:(NSInteger)quantity
 {
-    [self.methods selectSpecialTiles:1 fromArray:self.whiteTiles toArray:self.navyTiles];
-    
+    [self.methods selectSpecialTiles:quantity fromArray:self.whiteTiles toArray:self.navyTiles];
     [self formatGameButtons:self.navyTiles withImage:[UIImage imageNamed:@"navy tile@3x"]];
+    [self buttonAction:self.navyTiles];
 }
 
 -(void)disableGameButtons
