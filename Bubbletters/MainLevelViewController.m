@@ -607,15 +607,15 @@
     self.progressBar.progress = (float)self.gameSeconds/120;
     
     //Provides an upper limit to the timer with instructions to stop counting when the counter reaches a specific value.
-    if (self.gameSeconds == 10) //90
+    if (self.gameSeconds == 30) //90
     {
         self.progressBar.tintColor = [UIColor yellowColor];
     }
-    else if (self.gameSeconds == 20)//110
+    else if (self.gameSeconds == 40)//110
     {
         self.progressBar.tintColor = [UIColor redColor];
     }
-    else if (self.gameSeconds == 21)//120
+    else if (self.gameSeconds == 45)//120
     {
         [self.progressBarTimer invalidate];
         [self.finalScoreArray addObject:[NSNumber numberWithInteger:[self scoring]]];
@@ -822,6 +822,7 @@
     if ((self.selectedRow + 1) > [[NSUserDefaults standardUserDefaults]integerForKey:@"unlockedLevel"])
     {
         [[NSUserDefaults standardUserDefaults]setInteger:self.selectedRow + 1 forKey:@"unlockedLevel"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
     }
     
     self.finalScore = [self.finalScoreArraySorted lastObject];

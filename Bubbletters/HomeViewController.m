@@ -47,15 +47,13 @@
     //Removes color from tableView.
     self.tableView.backgroundColor = [UIColor clearColor];
     
-    [[NSUserDefaults standardUserDefaults]setInteger:0 forKey:@"unlockedLevel"];
-    
     self.backAnimation.backgroundColor = [UIColor colorWithRed:173/255.0 green:216/255.0 blue:230/255.0 alpha:1.0];
     self.bannerImage.image = [UIImage imageNamed:@"Bubbletters banner"];
     
     self.testArray01 = @[@"Level 01", @"Level 02", @"Level 03", @"Level 04", @"Level 05", @"Level 06", @"Level 07", @"Level 08", @"Level 09", @"Level 10", @"Level 11", @"Level 12", @"Level 13", @"Level 14", @"Level 15"];
     self.testArray03 = @[@1000, @478, @10000, @537, @19, @620, @9264, @500, @96, @453, @123, @775, @340, @223, @876];
     
-    self.levelScores = [NSMutableArray arrayWithObjects:@0, @0, @0, @0, @0, @0, @0, @0, @0, @0, nil];
+    self.levelScores = [NSMutableArray arrayWithObjects:@0, @0, @0, @0, @0, @0, @0, @0, @0, @0, @0, @0, @0, @0, @0, nil];
     
     
 }
@@ -103,9 +101,21 @@
     //The userDefault value is increased from data paased back from the unwind VC.
     cell.userInteractionEnabled = NO;
     
-    if (indexPath.row <= [[NSUserDefaults standardUserDefaults]integerForKey:@"unlockedLevel"])
+    // If it is the first time the game is played, the unlockedLevel default will not have been set, so the first tableViewCell interaction is enabled.
+    //After the first game is played (and won), the unlockedLevel default determines which levels are available to play, even after the game has been closed/re-opened.
+    if (![[NSUserDefaults standardUserDefaults]integerForKey:@"unlockedLevel"])
     {
-        cell.userInteractionEnabled = YES;
+        if (indexPath.row == 0)
+        {
+            cell.userInteractionEnabled = YES;
+        }
+        
+    } else if ([[NSUserDefaults standardUserDefaults]integerForKey:@"unlockedLevel"] > 0)
+    {
+        if (indexPath.row <= [[NSUserDefaults standardUserDefaults]integerForKey:@"unlockedLevel"])
+        {
+            cell.userInteractionEnabled = YES;
+        }
     }
     
     return cell;
