@@ -10,4 +10,8 @@
 
 @interface MainLevelViewController : UIViewController
 
+@property NSInteger selectedRow;
+@property NSNumber *finalScore;
+@property NSNumber *finalWordCount;
+
 @end

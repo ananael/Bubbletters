@@ -11,6 +11,7 @@
 #import "Lexicontext.h"
 #import "LettersArrays.h"
 #import "Scoring.h"
+#import "MethodsCache.h"
 
 @interface MainLevelViewController ()
 
@@ -34,9 +35,14 @@
 @property (weak, nonatomic) IBOutlet UIView *container8;
 @property (weak, nonatomic) IBOutlet UIView *container9;
 @property (weak, nonatomic) IBOutlet UIView *container10;
+@property (weak, nonatomic) IBOutlet UILabel *finalScoreLabel;
+@property (weak, nonatomic) IBOutlet UILabel *finalWordCountLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *performanceImage;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
 @property (weak, nonatomic) IBOutlet UIButton *backspaceButton;
 @property (weak, nonatomic) IBOutlet UIButton *clearAllButton;
+
+@property MethodsCache *methods;
 
 @property UIButton *replayButton;
 @property UIButton *continueButton;
@@ -63,6 +69,10 @@
 @property NSMutableArray *tempTriple;
 @property NSMutableArray *tempTotalArray;
 @property NSMutableArray *totalArray;
+@property NSMutableArray *finalScoreArray;
+@property NSArray *finalScoreArraySorted;
+@property NSMutableArray *finalWordCountArray;
+@property NSArray *finalWordCountArraySorted;
 
 @property NSMutableArray *tileArray;
 @property NSMutableArray *whiteTiles;
@@ -70,14 +80,13 @@
 @property NSMutableArray *redTiles;
 @property NSMutableArray *blueTiles;
 @property NSMutableArray *navyTiles;
+@property NSMutableArray *tappedButtonsArray;
 
 @property NSMutableArray *tileSwapOne;
 @property NSMutableArray *tileSwapTwo;
 @property NSMutableArray *tileSwapThree;
 @property NSMutableArray *tileSwapFour;
 
-- (IBAction)replayTapped:(id)sender;
-- (IBAction)continueTapped:(id)sender;
 - (IBAction)submitTapped:(id)sender;
 - (IBAction)backspaceTapped:(id)sender;
 - (IBAction)clearAllTapped:(id)sender;
@@ -93,11 +102,21 @@
     self.lexDict = [Lexicontext sharedDictionary];
     self.letters = [LettersArrays new];
     self.score = [Scoring new];
+    self.methods = [MethodsCache new];
     self.tempWordArray = [NSMutableArray new];
     self.validWordArray = [NSMutableArray new];
     self.tempScoreArray = [NSMutableArray new];
     self.tempTotalArray = [NSMutableArray new];
     self.totalArray = [NSMutableArray new];
+    
+    // The array holds all of the final scores from each time the user replays the level before exiting to the HomeVC.
+    self.finalScoreArray = [NSMutableArray new];
+    // The array holds all of the final word counts from each time the user replays the level before exiting to the HomeVC.
+    self.finalWordCountArray = [NSMutableArray new];
+    
+    //The tappedButtonsArray stores the information of each button tapped when creating a word.
+    //It is used to compare button tags, so that the tempDouble and tempTriple arrays have their lastObject removed appropriately (otherwise, scoring is compromised)
+    self.tappedButtonsArray = [NSMutableArray new];
     self.tempDouble = [NSMutableArray new];
     self.tempTriple = [NSMutableArray new];
     self.scoreLabel.text = @"Score: 0";
@@ -128,7 +147,7 @@
     self.frontAnimation.hidden = YES;
     self.gameOverView.hidden = YES;
     
-    [self gameTiles];
+    [self createGameTiles];
     
     [self formatWordLabel];
     [self formatContainers];
@@ -237,7 +256,7 @@
 
 #pragma mark - Tiles
 
--(void)gameTiles
+-(void)createGameTiles
 {
     NSInteger diameter;
     NSInteger space = 19;
@@ -292,16 +311,51 @@
     //Used when creating the arrays for letter-swapping
     self.tileSwapOne = [NSMutableArray arrayWithArray:self.tileArray];
     
-    [self formatPinkTiles];
-    [self formatBlueTiles];
-    [self formatRedTiles];
-    [self formatNavyTiles];
-    [self formatGameButtons:self.whiteTiles withImage:[UIImage imageNamed:@"white tile@3x"]];
-    [self buttonAction:self.tileArray];
-    [self buttonAction:self.pinkTiles];
-    [self buttonAction:self.blueTiles];
-    [self buttonAction:self.redTiles];
-    [self buttonAction:self.navyTiles];
+    switch (self.selectedRow)
+    {
+        case 0 ... 1:
+            [self formatGameButtons:self.whiteTiles withImage:[UIImage imageNamed:@"white tile@3x"]];
+            [self buttonAction:self.tileArray];
+            break;
+        case 2:
+            [self createPinkTiles];
+            [self formatGameButtons:self.whiteTiles withImage:[UIImage imageNamed:@"white tile@3x"]];
+            [self buttonAction:self.tileArray];
+            [self buttonAction:self.pinkTiles];
+            break;
+        case 3:
+            [self createBlueTiles];
+            [self formatGameButtons:self.whiteTiles withImage:[UIImage imageNamed:@"white tile@3x"]];
+            [self buttonAction:self.tileArray];
+            [self buttonAction:self.blueTiles];
+            break;
+        case 4:
+            [self createPinkTiles];
+            [self createBlueTiles];
+            [self createRedTiles];
+            [self createNavyTiles];
+            [self formatGameButtons:self.whiteTiles withImage:[UIImage imageNamed:@"white tile@3x"]];
+            [self buttonAction:self.tileArray];
+            [self buttonAction:self.pinkTiles];
+            [self buttonAction:self.blueTiles];
+            [self buttonAction:self.redTiles];
+            [self buttonAction:self.navyTiles];
+            break;
+            
+        default:
+            break;
+    }
+    
+//    [self createPinkTiles];
+//    [self createBlueTiles];
+//    [self createRedTiles];
+//    [self createNavyTiles];
+//    [self formatGameButtons:self.whiteTiles withImage:[UIImage imageNamed:@"white tile@3x"]];
+//    [self buttonAction:self.tileArray];
+//    [self buttonAction:self.pinkTiles];
+//    [self buttonAction:self.blueTiles];
+//    [self buttonAction:self.redTiles];
+//    [self buttonAction:self.navyTiles];
     
     [self createTileSwapArrays];
     [self letterSwapTimer01];
@@ -427,79 +481,31 @@
 
 #pragma mark - Special Tiles
 
--(void)selectPinkTiles
+-(void)createPinkTiles
 {
-    UIButton *button;
-    for (NSInteger i=0; i<2; i++)
-    {
-        NSInteger randomTile = arc4random_uniform((u_int32_t)[self.whiteTiles count]);
-        //NSLog(@"Random Pink Button: %ld", (long)randomTile);
-        button = [self.whiteTiles objectAtIndex:randomTile];
-        [self.pinkTiles addObject:button];
-        [self.whiteTiles removeObject:button];
-    }
-}
-
--(void)formatPinkTiles
-{
-    [self selectPinkTiles];
+    [self.methods selectSpecialTiles:2 fromArray:self.whiteTiles toArray:self.pinkTiles];
+    
     [self formatGameButtons:self.pinkTiles withImage:[UIImage imageNamed:@"pink tile@3x"]];
 }
 
--(void)selectBlueTiles
+-(void)createBlueTiles
 {
-    UIButton *button;
-    for (NSInteger i=0; i<1; i++)
-    {
-        NSInteger randomTile = arc4random_uniform((u_int32_t)[self.whiteTiles count]);
-        //NSLog(@"Random Blue Button: %ld", (long)randomTile);
-        button = [self.whiteTiles objectAtIndex:randomTile];
-        [self.blueTiles addObject:button];
-        [self.whiteTiles removeObject:button];
-    }
-}
-
--(void)formatBlueTiles
-{
-    [self selectBlueTiles];
+    [self.methods selectSpecialTiles:1 fromArray:self.whiteTiles toArray:self.blueTiles];
+    
     [self formatGameButtons:self.blueTiles withImage:[UIImage imageNamed:@"blue tile@3x"]];
 }
 
--(void)selectRedTiles
+-(void)createRedTiles
 {
-    UIButton *button;
-    for (NSInteger i=0; i<1; i++)
-    {
-        NSInteger randomTile = arc4random_uniform((u_int32_t)[self.whiteTiles count]);
-        //NSLog(@"Random Red Button: %ld", (long)randomTile);
-        button = [self.whiteTiles objectAtIndex:randomTile];
-        [self.redTiles addObject:button];
-        [self.whiteTiles removeObject:button];
-    }
-}
-
--(void)formatRedTiles
-{
-    [self selectRedTiles];
+    [self.methods selectSpecialTiles:1 fromArray:self.whiteTiles toArray:self.redTiles];
+    
     [self formatGameButtons:self.redTiles withImage:[UIImage imageNamed:@"red tile@3x"]];
 }
 
--(void)selectNavyTiles
+-(void)createNavyTiles
 {
-    UIButton *button;
-    for (NSInteger i=0; i<1; i++)
-    {
-        NSInteger randomTile = arc4random_uniform((u_int32_t)[self.whiteTiles count]);
-        //NSLog(@"Random Navy Button: %ld", (long)randomTile);
-        button = [self.whiteTiles objectAtIndex:randomTile];
-        [self.navyTiles addObject:button];
-        [self.whiteTiles removeObject:button];
-    }
-}
-
--(void)formatNavyTiles
-{
-    [self selectNavyTiles];
+    [self.methods selectSpecialTiles:1 fromArray:self.whiteTiles toArray:self.navyTiles];
+    
     [self formatGameButtons:self.navyTiles withImage:[UIImage imageNamed:@"navy tile@3x"]];
 }
 
@@ -582,6 +588,14 @@
                                                             repeats:YES];
 }
 
+-(void)invalidateSwapTimers
+{
+    [self.swapTimer01 invalidate];
+    [self.swapTimer02 invalidate];
+    [self.swapTimer03 invalidate];
+    [self.swapTimer04 invalidate];
+}
+
 #pragma mark - Timer Selectors
 
 -(void)updateProgressBar
@@ -593,30 +607,41 @@
     self.progressBar.progress = (float)self.gameSeconds/120;
     
     //Provides an upper limit to the timer with instructions to stop counting when the counter reaches a specific value.
-    if (self.gameSeconds == 90) //90
+    if (self.gameSeconds == 10) //90
     {
         self.progressBar.tintColor = [UIColor yellowColor];
     }
-    else if (self.gameSeconds == 110)//110
+    else if (self.gameSeconds == 20)//110
     {
         self.progressBar.tintColor = [UIColor redColor];
     }
-    else if (self.gameSeconds == 120)//120
+    else if (self.gameSeconds == 21)//120
     {
         [self.progressBarTimer invalidate];
+        [self.finalScoreArray addObject:[NSNumber numberWithInteger:[self scoring]]];
+        // The finalScoreArraySorted holds the final score(s) sorted in ascending order.
+        // Therefore, the last object in the array will always be the highest score obtained from multiple replays prior to exiting to HomeVC.
+        self.finalScoreArraySorted = [self.finalScoreArray sortedArrayUsingSelector:@selector(compare:)];
+        
+        [self.finalWordCountArray addObject:[NSNumber numberWithInteger:self.wordCount]];
+        // The finalWordCountArraySorted holds the final word count(s) sorted in ascending order.
+        // Therefore, the last object in the array will always be the highest word count obtained from multiple replays prior to exiting to HomeVC.
+        self.finalWordCountArraySorted = [self.finalWordCountArray sortedArrayUsingSelector:@selector(compare:)];
+        
         [self disableGameButtons];
         [self disableEntryButtons];
-        [self.swapTimer01 invalidate];
-        [self.swapTimer02 invalidate];
-        [self.swapTimer03 invalidate];
-        [self.swapTimer04 invalidate];
+        [self invalidateSwapTimers];
         
         self.frontAnimation.hidden = NO;
         self.frontAnimation.backgroundColor = [UIColor colorWithWhite:0.2 alpha:0.8];
+        self.finalScoreLabel.text = [NSString stringWithFormat:@"SCORE:\n%@", [self.finalScoreArray lastObject]];
+        self.finalWordCountLabel.text = [NSString stringWithFormat:@"WORD COUNT:\n%@", [self.finalWordCountArray lastObject]];
         self.gameOverView.hidden = NO;
         
         NSLog(@"Timer STOPPED!");
         NSLog(@"%@", self.validWordArray);
+        NSLog(@"Final Score = %@", self.finalScoreArraySorted);
+        NSLog(@"Word Count = %@", self.finalWordCountArraySorted);
     }
 }
 
@@ -683,6 +708,7 @@
         if ([button tag] == white.tag)
         {
             [self.tempScoreArray addObject:[NSNumber numberWithInteger:[self.score valueForLetter:white.titleLabel.text withMultiplier:regLetter]]];
+            [self.tappedButtonsArray addObject:white];
             
             NSLog(@"White Letter = %@\nWhite Value = %ld", white.titleLabel.text, (long)[self.score valueForLetter:white.titleLabel.text withMultiplier:regLetter]);
         }
@@ -694,6 +720,7 @@
         if ([button tag] == pink.tag)
         {
             [self.tempScoreArray addObject:[NSNumber numberWithInteger:[self.score valueForLetter:pink.titleLabel.text withMultiplier:dblLetter]]];
+            [self.tappedButtonsArray addObject:pink];
             
             NSLog(@"Pink Letter = %@\nPink Value = %ld", pink.titleLabel.text, (long)[self.score valueForLetter:pink.titleLabel.text withMultiplier:dblLetter]);
         }
@@ -705,6 +732,7 @@
         if ([button tag] == blue.tag)
         {
             [self.tempScoreArray addObject:[NSNumber numberWithInteger:[self.score valueForLetter:blue.titleLabel.text withMultiplier:trplLetter]]];
+            [self.tappedButtonsArray addObject:blue];
             
             NSLog(@"Blue Letter = %@\nBlue Value = %ld", blue.titleLabel.text, (long)[self.score valueForLetter:blue.titleLabel.text withMultiplier:trplLetter]);
         }
@@ -717,10 +745,10 @@
         {
             [self.tempScoreArray addObject:[NSNumber numberWithInteger:[self.score valueForLetter:red.titleLabel.text withMultiplier:regLetter]]];
             [self.tempDouble addObject:red];
+            [self.tappedButtonsArray addObject:red];
             
             NSLog(@"Red Letter = %@\nRed Value = %ld", red.titleLabel.text, (long)[self.score valueForLetter:red.titleLabel.text withMultiplier:regLetter]);
         }
-        //NSLog(@"Double Word Count = %lu", (unsigned long)[self.tempDouble count]);
     }
     
     //Triple Word Tiles
@@ -730,10 +758,10 @@
         {
             [self.tempScoreArray addObject:[NSNumber numberWithInteger:[self.score valueForLetter:navy.titleLabel.text withMultiplier:regLetter]]];
             [self.tempTriple addObject:navy];
+            [self.tappedButtonsArray addObject:navy];
             
             NSLog(@"Navy Letter = %@\nNavy Value = %ld", navy.titleLabel.text, (long)[self.score valueForLetter:navy.titleLabel.text withMultiplier:regLetter]);
         }
-        //NSLog(@"Triple Word Count = %lu", (unsigned long)[self.tempTriple count]);
     }
     
     NSLog(@"Double Word Count = %lu", (unsigned long)[self.tempDouble count]);
@@ -768,6 +796,7 @@
     [self.tempWordArray removeAllObjects];
     [self.validWordArray removeAllObjects];
     [self.tempScoreArray removeAllObjects];
+    [self.tappedButtonsArray removeAllObjects];
     [self.tempDouble removeAllObjects];
     [self.tempTriple removeAllObjects];
     [self.tempTotalArray removeAllObjects];
@@ -790,7 +819,15 @@
 
 - (IBAction)continueTapped:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:YES];
+    if ((self.selectedRow + 1) > [[NSUserDefaults standardUserDefaults]integerForKey:@"unlockedLevel"])
+    {
+        [[NSUserDefaults standardUserDefaults]setInteger:self.selectedRow + 1 forKey:@"unlockedLevel"];
+    }
+    
+    self.finalScore = [self.finalScoreArraySorted lastObject];
+    self.finalWordCount = [self.finalWordCountArraySorted lastObject];
+    
+    [self performSegueWithIdentifier:@"unwindMainLevel" sender:self];
 }
 
 - (IBAction)submitTapped:(id)sender
@@ -804,6 +841,7 @@
         [self.validWordArray addObject:self.wordLabel.text];
         [self.tempWordArray removeAllObjects];
         [self.tempScoreArray removeAllObjects];
+        [self.tappedButtonsArray removeAllObjects];
         [self.tempDouble removeAllObjects];
         [self.tempTriple removeAllObjects];
         [self.tempTotalArray removeAllObjects];
@@ -815,6 +853,7 @@
         [self.tempWordArray removeAllObjects];
         [self.tempScoreArray removeAllObjects];
         [self.tempTotalArray removeAllObjects];
+        [self.tappedButtonsArray removeAllObjects];
         [self.tempDouble removeAllObjects];
         [self.tempTriple removeAllObjects];
         self.wordLabel.text = @"";
@@ -823,10 +862,30 @@
 
 - (IBAction)backspaceTapped:(id)sender
 {
+    UIButton *tapped = [self.tappedButtonsArray lastObject];
+    
+    // The tag of the last button tapped in the tappedButtonsArray is compared to the tags in the redTiles (or blueTiles) array.
+    // If they match, the lastObject in the redTiles (or blueTiles) array is removed, so that the count used for the scoring multiplier is corrected.
+    for (UIButton *red in self.redTiles)
+    {
+        if (tapped.tag == red.tag)
+        {
+            [self.tempDouble removeLastObject];
+        }
+    }
+    
+    for (UIButton *navy in self.navyTiles)
+    {
+        if (tapped.tag == navy.tag)
+        {
+            [self.tempDouble removeLastObject];
+        }
+    }
+    
+    // The last object in the tappedButtonsArray is removed regardless of whether there is a matching red or blue tile.
+    [self.tappedButtonsArray removeLastObject];
     [self.tempWordArray removeLastObject];
     [self.tempScoreArray removeLastObject];
-    [self.tempDouble removeAllObjects];
-    [self.tempTriple removeAllObjects];
     self.wordLabel.text = [self.tempWordArray componentsJoinedByString:@""];
 }
 
@@ -834,6 +893,7 @@
 {
     [self.tempWordArray removeAllObjects];
     [self.tempScoreArray removeAllObjects];
+    [self.tappedButtonsArray removeAllObjects];
     [self.tempDouble removeAllObjects];
     [self.tempTriple removeAllObjects];
     self.wordLabel.text = @"";
@@ -850,7 +910,8 @@
     NSInteger doubleWord = pow(2, [self.tempDouble count]);
     NSInteger tripleWord = pow(3, [self.tempTriple count]);
     
-    NSLog(@"Double Word Power = %ld", doubleWord);
+    NSLog(@"Double Word Mult = %ld", (long)doubleWord);
+    NSLog(@"Triple Word Mult = %ld", (long)tripleWord);
     
     [self.tempTotalArray addObjectsFromArray:self.tempScoreArray];
     NSLog(@"Score: %@", self.tempTotalArray);
@@ -863,25 +924,25 @@
     {
         doubleTotal = tempSum*doubleWord;
         [self.totalArray addObject:[NSNumber numberWithInteger:doubleTotal]];
-        NSLog(@"Double Word = %ld", doubleTotal);
+        NSLog(@"Double Word = %ld", (long)doubleTotal);
     }
     if ([self.tempTriple count] > 0 && [self.tempDouble count] == 0)
     {
         tripleTotal = tempSum*tripleWord;
         [self.totalArray addObject:[NSNumber numberWithInteger:tripleTotal]];
-        NSLog(@"Triple Word = %ld", tripleTotal);
+        NSLog(@"Triple Word = %ld", (long)tripleTotal);
     }
     if ([self.tempDouble count] > 0 && [self.tempTriple count] > 0)
     {
         bothTotal = tempSum*doubleWord*tripleWord;
         [self.totalArray addObject:[NSNumber numberWithInteger:bothTotal]];
-        NSLog(@"Both Word = %ld", bothTotal);
+        NSLog(@"Both Word = %ld", (long)bothTotal);
     }
     if ([self.tempDouble count] == 0 && [self.tempTriple count] == 0)
     {
         //regTotal = tempSum;
         [self.totalArray addObject:[NSNumber numberWithInteger:tempSum]];
-        NSLog(@"Regular Word = %ld", regTotal);
+        NSLog(@"Regular Word = %ld", (long)regTotal);
     }
     NSLog(@"Totals Array: %@", self.totalArray);
     for (NSNumber *total in self.totalArray)

@@ -10,7 +10,9 @@
 
 @interface HomeTableViewCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UIView *cellView;
 @property (weak, nonatomic) IBOutlet UILabel *levelLabel;
 @property (weak, nonatomic) IBOutlet UILabel *scoreLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *levelImage;
 
 @end

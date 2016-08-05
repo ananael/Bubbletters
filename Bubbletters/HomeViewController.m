@@ -8,6 +8,7 @@
 
 #import "HomeViewController.h"
 #import "HomeTableViewCell.h"
+#import "MainLevelViewController.h"
 
 @interface HomeViewController ()
 
@@ -19,8 +20,9 @@
 @property (weak, nonatomic) IBOutlet UIButton *instructionButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+@property NSMutableArray *levelScores;
+
 @property NSArray *testArray01;
-@property NSArray *testArray02;
 @property NSArray *testArray03;
 
 - (IBAction)creditsTapped:(id)sender;
@@ -37,13 +39,23 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
+    self.tableView.rowHeight = 85;
+    
+    //Removes unused cells from tableView.
+    self.tableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectZero];
+    
+    //Removes color from tableView.
+    self.tableView.backgroundColor = [UIColor clearColor];
+    
+    [[NSUserDefaults standardUserDefaults]setInteger:0 forKey:@"unlockedLevel"];
+    
     self.backAnimation.backgroundColor = [UIColor colorWithRed:173/255.0 green:216/255.0 blue:230/255.0 alpha:1.0];
     self.bannerImage.image = [UIImage imageNamed:@"Bubbletters banner"];
     
-    self.testArray01 = @[@"Level 01", @"Level 02", @"Level 03", @"Level 04", @"Level 05", @"Level 06", @"Level 07"];
-    self.testArray02 = @[@"40", @"80", @"32", @"147", @"3", @"69", @"999"];
-    self.testArray03 = @[@"1000", @"478", @"10000", @"537", @"19", @"620", @"9264"];
+    self.testArray01 = @[@"Level 01", @"Level 02", @"Level 03", @"Level 04", @"Level 05", @"Level 06", @"Level 07", @"Level 08", @"Level 09", @"Level 10", @"Level 11", @"Level 12", @"Level 13", @"Level 14", @"Level 15"];
+    self.testArray03 = @[@1000, @478, @10000, @537, @19, @620, @9264, @500, @96, @453, @123, @775, @340, @223, @876];
     
+    self.levelScores = [NSMutableArray arrayWithObjects:@0, @0, @0, @0, @0, @0, @0, @0, @0, @0, nil];
     
     
 }
@@ -51,6 +63,13 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+// **********  VERY IMPORTANT TO UPDATE TABEVIEW ON RETURN!! **********
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:YES];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -67,73 +86,73 @@
     return [self.testArray01 count];
 }
 
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HomeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"levelCell" forIndexPath:indexPath];
     
     // Configure the cell...
+    
+    //Removes color from tableViewCell.
+    cell.backgroundColor = [UIColor clearColor];
+    
+    cell.cellView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
     cell.levelLabel.text = self.testArray01[indexPath.row];
-    cell.scoreLabel.text = [NSString stringWithFormat:@"%@ / %@", self.testArray02[indexPath.row], self.testArray03[indexPath.row]];
+    cell.scoreLabel.text = [NSString stringWithFormat:@"%@", self.levelScores[indexPath.row]];
+    
+    //Make the cell nonresponsive until the unlockValue changes.
+    //The userDefault value is initially set at "0" in viewDidLoad, so that the first cell is enabled.
+    //The userDefault value is increased from data paased back from the unwind VC.
+    cell.userInteractionEnabled = NO;
+    
+    if (indexPath.row <= [[NSUserDefaults standardUserDefaults]integerForKey:@"unlockedLevel"])
+    {
+        cell.userInteractionEnabled = YES;
+    }
     
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row >= 0)
+    {
+        [self performSegueWithIdentifier:@"mainLevelSegue" sender:self];
+    }
+}
 
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- } else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
-/*
  #pragma mark - Navigation
  
  // In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
  // Get the new view controller using [segue destinationViewController].
  // Pass the selected object to the new view controller.
+     
+     if ([segue.identifier isEqualToString:@"mainLevelSegue"])
+     {
+         MainLevelViewController *mainVC = segue.destinationViewController;
+         NSIndexPath *selectedPath = [self.tableView indexPathForSelectedRow];
+         NSLog(@"Selected Path = %lu", (long)selectedPath.row);
+         mainVC.selectedRow = selectedPath.row;
+     }
+     
+     
  }
- */
 
+-(IBAction)returnToMainVC:(UIStoryboardSegue *)unwindSegue
+{
+    if ([unwindSegue.identifier isEqualToString:@"unwindMainLevel"])
+    {
+        MainLevelViewController *mainVC= unwindSegue.sourceViewController;
+        
+        NSLog(@"Number = %ld\nScore = %@", (long)mainVC.selectedRow, mainVC.finalScore);
+        
+        //This allows me to change the player's level score ONLY if the new value is higher than the old value.
+        if (mainVC.finalScore > [self.levelScores objectAtIndex:mainVC.selectedRow])
+        {
+            [self.levelScores replaceObjectAtIndex:mainVC.selectedRow withObject:mainVC.finalScore];
+        }
+    }
+}
 
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 - (IBAction)creditsTapped:(id)sender
 {
@@ -142,7 +161,7 @@
 
 - (IBAction)instructionsTapped:(id)sender
 {
-    [self performSegueWithIdentifier:@"game01Segue" sender:self];
+    [self performSegueWithIdentifier:@"mainLevelSegue" sender:self];
 }
 
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D21AB1CF1D51954600622C9A /* MethodsCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D21AB1CE1D51954600622C9A /* MethodsCache.m */; };
 		D22240B81D00BB0B00FC3A8C /* LexicontextAssets.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D22240B61D00BB0B00FC3A8C /* LexicontextAssets.bundle */; };
 		D22240B91D00BB0B00FC3A8C /* libLexicontext.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D22240B71D00BB0B00FC3A8C /* libLexicontext.a */; };
 		D22240BD1D00C1DD00FC3A8C /* Scoring.m in Sources */ = {isa = PBXBuildFile; fileRef = D22240BC1D00C1DD00FC3A8C /* Scoring.m */; };
@@ -52,6 +53,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D21AB1CD1D51954600622C9A /* MethodsCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MethodsCache.h; sourceTree = "<group>"; };
+		D21AB1CE1D51954600622C9A /* MethodsCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MethodsCache.m; sourceTree = "<group>"; };
 		D22240B51D00BB0B00FC3A8C /* Lexicontext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lexicontext.h; sourceTree = "<group>"; };
 		D22240B61D00BB0B00FC3A8C /* LexicontextAssets.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = LexicontextAssets.bundle; sourceTree = "<group>"; };
 		D22240B71D00BB0B00FC3A8C /* libLexicontext.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libLexicontext.a; sourceTree = "<group>"; };
@@ -181,6 +184,8 @@
 				D22240BA1D00BB1600FC3A8C /* Lexicontext */,
 				D2F5C1A01CFFC02B0083E276 /* AppDelegate.h */,
 				D2F5C1A11CFFC02B0083E276 /* AppDelegate.m */,
+				D21AB1CD1D51954600622C9A /* MethodsCache.h */,
+				D21AB1CE1D51954600622C9A /* MethodsCache.m */,
 				D22240BB1D00C1DD00FC3A8C /* Scoring.h */,
 				D22240BC1D00C1DD00FC3A8C /* Scoring.m */,
 				D2228D2F1D00721E00E6477D /* LettersArrays.h */,
@@ -386,6 +391,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D25EC46E1D2F1A550037E889 /* MainLevelViewController.m in Sources */,
+				D21AB1CF1D51954600622C9A /* MethodsCache.m in Sources */,
 				D2F5C1A21CFFC02B0083E276 /* AppDelegate.m in Sources */,
 				D25EC46B1D2F184F0037E889 /* HomeTableViewCell.m in Sources */,
 				D2F5C19F1CFFC02B0083E276 /* main.m in Sources */,
