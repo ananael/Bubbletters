@@ -14,4 +14,9 @@
 -(UIColor*)colorWithHexString:(NSString*)hex alpha:(CGFloat)alpha;
 -(void)selectSpecialTiles:(NSInteger)amount fromArray:(NSMutableArray *)arrayOne toArray:(NSMutableArray *)arrayTwo;
 
+-(NSArray *)levelTitles;
+-(NSMutableArray *)levelScores;
+-(NSInteger)previousLevelScoreforRow:(NSInteger)row;
+-(void)updateLevelScore:(NSInteger)score forRow:(NSInteger)row;
+
 @end

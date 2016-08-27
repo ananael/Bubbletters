@@ -9,6 +9,7 @@
 #import "HomeViewController.h"
 #import "HomeTableViewCell.h"
 #import "MainLevelViewController.h"
+#import "MethodsCache.h"
 
 @interface HomeViewController ()
 
@@ -20,10 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *instructionButton;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property NSMutableArray *levelScores;
-
-@property NSArray *testArray01;
-@property NSArray *testArray03;
+@property MethodsCache *methods;
 
 - (IBAction)creditsTapped:(id)sender;
 - (IBAction)instructionsTapped:(id)sender;
@@ -50,11 +48,9 @@
     self.backAnimation.backgroundColor = [UIColor colorWithRed:173/255.0 green:216/255.0 blue:230/255.0 alpha:1.0];
     self.bannerImage.image = [UIImage imageNamed:@"Bubbletters banner"];
     
-    self.testArray01 = @[@"Level 01", @"Level 02", @"Level 03", @"Level 04", @"Level 05", @"Level 06", @"Level 07", @"Level 08", @"Level 09", @"Level 10", @"Level 11", @"Level 12", @"Level 13", @"Level 14", @"Level 15"];
-    self.testArray03 = @[@1000, @478, @10000, @537, @19, @620, @9264, @500, @96, @453, @123, @775, @340, @223, @876];
-    
-    self.levelScores = [NSMutableArray arrayWithObjects:@0, @0, @0, @0, @0, @0, @0, @0, @0, @0, @0, @0, @0, @0, @0, nil];
-    
+    self.methods = [MethodsCache new];
+    [self.methods levelTitles];
+    [self.methods levelScores];
     
 }
 
@@ -81,7 +77,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [self.testArray01 count];
+    return [[self.methods levelTitles] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -93,16 +89,15 @@
     cell.backgroundColor = [UIColor clearColor];
     
     cell.cellView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
-    cell.levelLabel.text = self.testArray01[indexPath.row];
-    cell.scoreLabel.text = [NSString stringWithFormat:@"%@", self.levelScores[indexPath.row]];
+    cell.levelLabel.text = [self.methods levelTitles][indexPath.row];
+    cell.scoreLabel.text = [NSString stringWithFormat:@"%@", [self.methods levelScores][indexPath.row]];
     
-    //Make the cell nonresponsive until the unlockValue changes.
-    //The userDefault value is initially set at "0" in viewDidLoad, so that the first cell is enabled.
-    //The userDefault value is increased from data paased back from the unwind VC.
+    //Make the cells nonresponsive until the unlockValue changes.
     cell.userInteractionEnabled = NO;
     
-    // If it is the first time the game is played, the unlockedLevel default will not have been set, so the first tableViewCell interaction is enabled.
-    //After the first game is played (and won), the unlockedLevel default determines which levels are available to play, even after the game has been closed/re-opened.
+    // If it is the first time the game is played, the unlockedLevel userDefault will not have been set, so the first tableViewCell interaction is enabled.
+    //After the first game is played (and won), the unlockedLevel userDefault determines which levels are available to play, even after the game has been closed/re-opened.
+    //The userDefault value is increased from data paased back from the unwind VC.
     if (![[NSUserDefaults standardUserDefaults]integerForKey:@"unlockedLevel"])
     {
         if (indexPath.row == 0)
@@ -149,18 +144,7 @@
 
 -(IBAction)returnToMainVC:(UIStoryboardSegue *)unwindSegue
 {
-    if ([unwindSegue.identifier isEqualToString:@"unwindMainLevel"])
-    {
-        MainLevelViewController *mainVC= unwindSegue.sourceViewController;
-        
-        NSLog(@"Number = %ld\nScore = %@", (long)mainVC.selectedRow, mainVC.finalScore);
-        
-        //This allows me to change the player's level score ONLY if the new value is higher than the old value.
-        if (mainVC.finalScore > [self.levelScores objectAtIndex:mainVC.selectedRow])
-        {
-            [self.levelScores replaceObjectAtIndex:mainVC.selectedRow withObject:mainVC.finalScore];
-        }
-    }
+    NSLog(@"NEW Array Contents = %@", [self.methods levelScores]);
 }
 
 

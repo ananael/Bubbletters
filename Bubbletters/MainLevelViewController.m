@@ -43,6 +43,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *clearAllButton;
 
 @property MethodsCache *methods;
+@property NSInteger previousLevelScore;
 
 @property UIButton *replayButton;
 @property UIButton *continueButton;
@@ -73,6 +74,8 @@
 @property NSArray *finalScoreArraySorted;
 @property NSMutableArray *finalWordCountArray;
 @property NSArray *finalWordCountArraySorted;
+@property NSNumber *finalScore;
+@property NSNumber *finalWordCount;
 
 @property NSMutableArray *tileArray;
 @property NSMutableArray *whiteTiles;
@@ -108,6 +111,10 @@
     self.tempScoreArray = [NSMutableArray new];
     self.tempTotalArray = [NSMutableArray new];
     self.totalArray = [NSMutableArray new];
+    
+    //Pulls in the previous userDefault score for the selectedRow to use in comparison with the current score when the "replay" or "continue" button is tapped.
+    self.previousLevelScore = [self.methods previousLevelScoreforRow:self.selectedRow];
+    NSLog(@"Previous Score = %ld", (long)self.previousLevelScore);
     
     // The array holds all of the final scores from each time the user replays the level before exiting to the HomeVC.
     self.finalScoreArray = [NSMutableArray new];
@@ -466,8 +473,7 @@
     }
     else
     {
-        //For iPad Pro
-        diameter = self.container10.frame.size.height*2.27;
+        diameter = self.container10.frame.size.height*2.27; //For iPad Pro
     }
     
     NSInteger xAxis = self.view.center.x;
@@ -607,25 +613,31 @@
     self.progressBar.progress = (float)self.gameSeconds/120;
     
     //Provides an upper limit to the timer with instructions to stop counting when the counter reaches a specific value.
-    if (self.gameSeconds == 30) //90
+    if (self.gameSeconds == 10) //90
     {
         self.progressBar.tintColor = [UIColor yellowColor];
     }
-    else if (self.gameSeconds == 40)//110
+    else if (self.gameSeconds == 20)//110
     {
         self.progressBar.tintColor = [UIColor redColor];
     }
-    else if (self.gameSeconds == 45)//120
+    else if (self.gameSeconds == 25)//120
     {
         [self.progressBarTimer invalidate];
         [self.finalScoreArray addObject:[NSNumber numberWithInteger:[self scoring]]];
-        // The finalScoreArraySorted holds the final score(s) sorted in ascending order.
-        // Therefore, the last object in the array will always be the highest score obtained from multiple replays prior to exiting to HomeVC.
+        
+/*
+ The finalScoreArraySorted holds the final score(s) sorted in ascending order.
+ Therefore, the last object in the array will always be the highest score obtained from multiple replays prior to exiting the HomeVC
+*/
         self.finalScoreArraySorted = [self.finalScoreArray sortedArrayUsingSelector:@selector(compare:)];
         
         [self.finalWordCountArray addObject:[NSNumber numberWithInteger:self.wordCount]];
-        // The finalWordCountArraySorted holds the final word count(s) sorted in ascending order.
-        // Therefore, the last object in the array will always be the highest word count obtained from multiple replays prior to exiting to HomeVC.
+        
+/*
+ The finalWordCountArraySorted holds the final word count(s) sorted in ascending order.
+ Therefore, the last object in the array will always be the highest word count obtained from multiple replays prior to exiting to HomeVC.
+*/
         self.finalWordCountArraySorted = [self.finalWordCountArray sortedArrayUsingSelector:@selector(compare:)];
         
         [self disableGameButtons];
@@ -645,7 +657,8 @@
     }
 }
 
-//Randomly add 4 buttons to each of the tileSwap arrays for use in the letterSwap methods
+//Randomly add 4 buttons to each of the tileSwap arrays for use in the letterSwap methods.
+//Method uses tileSawpOne as the base mutArray, so once the 3 new tileSawp arrays are created, tileSawpOne has 4 buttons remaining.
 -(void)createTileSwapArrays
 {
     UIButton *button;
@@ -814,6 +827,15 @@
 
 - (IBAction)replayTapped:(id)sender
 {
+    self.finalScore = [self.finalScoreArraySorted lastObject];
+    self.finalWordCount = [self.finalWordCountArraySorted lastObject];
+    
+    //The userDefault is only updated if the current score is greater than the previous score.
+    if ([self.finalScore integerValue] > self.previousLevelScore)
+    {
+        [self.methods updateLevelScore:[self.finalScore integerValue] forRow:self.selectedRow];
+    }
+    
     [self replayReset];
 }
 
@@ -827,6 +849,12 @@
     
     self.finalScore = [self.finalScoreArraySorted lastObject];
     self.finalWordCount = [self.finalWordCountArraySorted lastObject];
+    
+    //The userDefault is only updated if the current score is greater than the previous score.
+    if ([self.finalScore integerValue] > self.previousLevelScore)
+    {
+        [self.methods updateLevelScore:[self.finalScore integerValue] forRow:self.selectedRow];
+    }
     
     [self performSegueWithIdentifier:@"unwindMainLevel" sender:self];
 }
@@ -879,7 +907,7 @@
     {
         if (tapped.tag == navy.tag)
         {
-            [self.tempDouble removeLastObject];
+            [self.tempTriple removeLastObject];
         }
     }
     
